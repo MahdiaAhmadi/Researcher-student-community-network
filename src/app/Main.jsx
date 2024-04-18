@@ -1,4 +1,5 @@
-
+"use client"
+import LoginButton from "@/components/LoginButton"
 
 export default function Home() {
   return (
@@ -60,6 +61,7 @@ export default function Home() {
             )
           })} */}
         </ul>
+        <LoginButton />
       </div>
       {/* {posts.length > MAX_DISPLAY && (
         <div className="flex justify-end text-base font-medium leading-6">
