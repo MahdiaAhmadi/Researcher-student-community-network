@@ -1,11 +1,10 @@
-import siteMetadata from '@/data/siteMetadata'
-import Link from './Link'
+import siteMetadata from "@/data/siteMetadata";
+import Link from "./Link";
 
 export default function Footer() {
   return (
-    <footer>
+    <footer className=" w-full bg-secondary">
       <div className="mt-16 flex flex-col items-center">
-
         <div className="mb-2 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
           <div>{siteMetadata.author}</div>
           <div>{` • `}</div>
@@ -15,5 +14,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
