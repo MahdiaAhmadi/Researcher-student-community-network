@@ -5,7 +5,7 @@ import UserIcon from "./Usericon";
 
 export default function Header() {
   return (
-    <header className="flex w-full items-center justify-between py-10  bg-secondary  px-10 ">
+    <header className="flex w-full items-center justify-between py-7  bg-secondary  px-10 ">
       <div>
         <Link href="/">
           <div className="flex items-center justify-between">

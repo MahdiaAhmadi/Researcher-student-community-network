@@ -13,6 +13,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        "3xl": "0 35px 60px -15px rgba(0, 0, 0, 0.3)",
+        // Add more custom shadows as needed
+      },
       lineHeight: {
         11: "2.75rem",
         12: "3rem",
@@ -27,6 +31,9 @@ module.exports = {
         gray: colors.gray,
         secondary: "#52b788",
         third: "#e07a5f",
+        fourth: "#353535",
+        fifth: "#f6bd60",
+        sixth: "#b6ad90",
       },
       typography: ({ theme }) => ({
         DEFAULT: {
