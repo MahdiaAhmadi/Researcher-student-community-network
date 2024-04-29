@@ -4,7 +4,7 @@ import Link from "./Link";
 export default function Footer() {
   return (
     <footer className="  bg-secondary bg-cover py-1">
-      <div className="mt-16 flex flex-col items-center bg-cover">
+      <div className="mt-16 flex flex-col items-center ">
         <div className="mb-2 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
           <div>{siteMetadata.author}</div>
           <div>{` • `}</div>

@@ -2,7 +2,7 @@ import { FaCoffee } from "react-icons/fa";
 
 export default function PostCards() {
   return (
-    <div className="research-card bg-gray-200 text-fourth px-5 py-3 mt-6 shadow ">
+    <div className="research-card bg-gray-200 text-fourth px-5 py-3 mt-6 hover:shadow-sm">
       <div className="profile flex items-center justify-between">
         <div className="flex gap-3 mb-4">
           <svg
