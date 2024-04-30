@@ -1,6 +1,7 @@
 import { useState } from "react";
 import postList from "../../components/Postslist";
 
+
 export default function Timeline() {
   const [posts, setPosts] = useState([
     {
