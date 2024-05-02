@@ -1,33 +1,86 @@
 "use client";
+import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function LoginPage() {
-  const [userName, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const onSubmit = async () => {
-    const result = await signIn("credentials", {
-      username: userName,
-      password: password,
-      redirect: true,
-      callbackUrl: "/",
+
+    const res = await fetch("http://localhost:8000/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
     });
+
+    const response = await res.json()
+    if (response.code == 200) {
+      const user = response.data
+      await signIn("credentials", {
+        username: user.username,
+        email: user.email,
+        institution: user.institution,
+        redirect: true,
+        callbackUrl: "/"
+      });
+    } else {
+      alert(response.message)
+    }
   };
 
   return (
     <div
       className={
-        "flex flex-col justify-center items-center  h-screen bg-gradient-to-br gap-1 from-cyan-300 to-sky-600"
-      }
-    >
-      <div className="px-7 py-4 shadow bg-white rounded-md flex flex-col gap-2">
-
-
-        <button className="text-green-600" onClick={onSubmit}>
-          Login
-        </button>
-
+        "flex flex-col justify-center items-center bg-gradient-to-br"
+      } >
+      <div className="sm:shadow-xl text-black px-8 pb-8 pt-5 sm:bg-white rounded-xl space-y-5 ">
+        <h1 className="text-center text-bold text-2xl">Sign In</h1>
+        <div className="space-y-5 w-full sm:w-[400px]">
+          <div className="grid w-full items-center gap-1.5">
+            <Label htmlFor="username"
+              label="Username" />
+            <Input
+              required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              id="username"
+            />
+          </div>
+          <div className="grid w-full items-center gap-1.5">
+            <Label htmlFor="passsword"
+              label="Password" />
+            <Input
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              id="password"
+              type="password"
+            />
+          </div>
+          {/* {error && <Alert>{error}</Alert>} */}
+          <div className="w-full">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full"
+              onClick={onSubmit}>
+              Login
+            </button>
+          </div>
+        </div>
+        <p className="text-center">
+          Need to create an account?{' '}
+          <Link className="text-indigo-500 hover:underline" href="/register">
+            Create Account
+          </Link>
+        </p>
       </div>
     </div>
   );
