@@ -1,6 +1,5 @@
 import Home from "./Main";
 
-
 export default function Page() {
-  return <Home />
+  return <Home></Home>;
 }
