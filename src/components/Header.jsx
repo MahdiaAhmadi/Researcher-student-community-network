@@ -26,6 +26,9 @@ export default function Header() {
         <SearchButton />
         <UserIcon />
         <MobileNav />
+        <Link className=" px-2 py-2 bg-blue-400" href="/posts/create">
+          New Post
+        </Link>
       </div>
     </header>
   );
