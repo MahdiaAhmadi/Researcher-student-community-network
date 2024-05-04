@@ -22,14 +22,10 @@ export default function LoginPage() {
       }
     >
       <div className="px-7 py-4 shadow bg-white rounded-md flex flex-col gap-2">
-
-
         <button className="text-green-600" onClick={onSubmit}>
           Login
         </button>
-
       </div>
     </div>
   );
-};
-
+}

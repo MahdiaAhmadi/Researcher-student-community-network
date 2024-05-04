@@ -1,4 +1,5 @@
 import Card from "../components/imagesDesign";
+import Link from "./Link";
 
 export default function HomePage() {
   return (
@@ -43,22 +44,22 @@ export default function HomePage() {
         <div className=" flex flex-col items-center justify-center">
           <Card image=" https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
 
-          <a
-            href="#_"
+          <Link
+            href="/posts/create"
             class="inline-flex items-center justify-center h-16 px-10 py-0 text-xl font-semibold text-center text-gray-200 no-underline align-middle transition-all duration-300 ease-in-out bg-transparent border-2 border-gray-600 border-solid rounded-full cursor-pointer select-none hover:text-white hover:border-white focus:shadow-xs focus:no-underline"
           >
             Publish Research
-          </a>
+          </Link>
         </div>
         <div className="flex flex-col items-center justify-center ">
           <Card image="https://images.unsplash.com/photo-1582005450386-52b25f82d9bb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
 
-          <a
-            href="#_"
+          <Link
+            href="/posts/PostCard"
             class="inline-flex items-center justify-center h-16 px-10 py-0 text-xl font-semibold text-center text-gray-200 no-underline align-middle transition-all duration-300 ease-in-out bg-transparent border-2 border-gray-600 border-solid rounded-full cursor-pointer select-none hover:text-white hover:border-white focus:shadow-xs focus:no-underline"
           >
             Find Paper
-          </a>
+          </Link>
         </div>
         <div className="flex flex-col items-center justify-center">
           <Card image="https://media.istockphoto.com/id/1127447338/pt/foto/network-of-business-concept.jpg?s=612x612&w=0&k=20&c=U6uOmGKBCmaRaMsa12fedcnMPj1Ou9gcg-zP25mLr-Q=" />

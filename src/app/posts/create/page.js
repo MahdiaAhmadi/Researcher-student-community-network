@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
+
+import { useRouter } from "next/router";
 
 const Create = () => {
   const [title, setTitle] = useState("");
@@ -15,6 +16,7 @@ const Create = () => {
   const [created_at, setCreated_at] = useState("");
 
   const handleSubmit = async (e) => {
+    const router = useRouter();
     e.preventDefault();
     if (
       title == "" ||
@@ -51,9 +53,11 @@ const Create = () => {
       });
       const response = await res.json();
       if (response.status === 200) {
-        <Link href="/components/PostCard"></Link>;
+        router.push("/components/PostCard");
       } else if (response.status === 422) {
         alert("Failed creating Post! Server responded with a 422 error.");
+      } else {
+        alert("Failed creating Post! Server responded with a 404 error.");
       }
       console.log(response);
     }

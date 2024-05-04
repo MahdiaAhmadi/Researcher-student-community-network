@@ -18,7 +18,7 @@ export default function Header() {
       </div>
       <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
         <Link
-          href="/post/timeline"
+          href="/"
           className="hidden font-medium text-white-100 dark:text-gray-100 sm:block hover:border-b-2  hover:border-spacing-1 hover:border-primary-950  hover:   hover:transition duration-100 ease-in-out "
         >
           Home
@@ -26,9 +26,6 @@ export default function Header() {
         <SearchButton />
         <UserIcon />
         <MobileNav />
-        <Link className=" px-2 py-2 bg-blue-400" href="/posts/create">
-          New Post
-        </Link>
       </div>
     </header>
   );
