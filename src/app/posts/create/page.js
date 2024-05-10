@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
-
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const Create = () => {
+  const router = useRouter();
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [categories_id, setCategories_id] = useState("");
@@ -16,7 +17,6 @@ const Create = () => {
   const [created_at, setCreated_at] = useState("");
 
   const handleSubmit = async (e) => {
-    const router = useRouter();
     e.preventDefault();
     if (
       title == "" ||
@@ -52,12 +52,11 @@ const Create = () => {
         }),
       });
       const response = await res.json();
-      if (response.status === 200) {
-        router.push("/components/PostCard");
-      } else if (response.status === 422) {
-        alert("Failed creating Post! Server responded with a 422 error.");
+
+      if (response.code === 200) {
+        router.push("/posts/timeline");
       } else {
-        alert("Failed creating Post! Server responded with a 404 error.");
+        alert("Failed creating Post!");
       }
       console.log(response);
     }
@@ -69,7 +68,7 @@ const Create = () => {
         <h2 className="text-center py-5 font-bold text-2xl text-secondary ">
           Add New Post
         </h2>
-        <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
+        <form onSubmit={handleSubmit} className="max-w-sm mx-auto p-4 ">
           <div className="mb-5">
             <label
               className="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -88,6 +87,23 @@ const Create = () => {
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             />
           </div>
+          <div className="mb-5">
+            <label
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              for="author"
+            >
+              Author_id: <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="author"
+              type="text"
+              required
+              value={author_id}
+              onChange={(e) => setAuthor_id(e.target.value)}
+              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+            />
+          </div>
+
           <div className="mb-5">
             <label
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -123,22 +139,7 @@ const Create = () => {
               placeholder="Summary goes here..."
             ></textarea>
           </div>
-          <div className="mb-5">
-            <label
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              for="author"
-            >
-              Author_id: <span class="text-red-500">*</span>
-            </label>
-            <input
-              id="author"
-              type="text"
-              required
-              value={author_id}
-              onChange={(e) => setAuthor_id(e.target.value)}
-              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-            />
-          </div>
+
           <div className="mb-5">
             <label
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -155,11 +156,9 @@ const Create = () => {
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             />
           </div>
+
           <div className="text-center mt-8 ">
-            <button
-              onClick={handleSubmit}
-              className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-8 py-3 text-center me-2 mb-4 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-            >
+            <button className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-8 py-3 text-center me-2 mb-4 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
               Add Post
             </button>
           </div>

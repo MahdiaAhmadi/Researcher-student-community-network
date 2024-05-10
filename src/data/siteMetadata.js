@@ -1,28 +1,28 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'Reasearch Hub Network',
-  author: '',
-  headerTitle: 'Reasearch Hub',
-  description: 'A blog created for researchers',
-  language: 'en-us',
-  theme: 'system', // system, dark or light
-  siteUrl: '',
-  siteRepo: '',
-  siteLogo: '/static/images/logo.png',
-  socialBanner: '/static/images/twitter-card.png',
-  email: 'address@yoursite.com',
-  github: 'https://github.com',
-  twitter: 'https://twitter.com/Twitter',
-  facebook: 'https://facebook.com',
-  youtube: 'https://youtube.com',
-  linkedin: 'https://www.linkedin.com',
-  threads: 'https://www.threads.net',
-  instagram: 'https://www.instagram.com',
-  locale: 'en-US',
+  title: "Reasearch Hub",
+  author: "",
+  headerTitle: "Reasearch Hub",
+  description: "A blog created for researchers",
+  language: "en-us",
+  theme: "system", // system, dark or light
+  siteUrl: "",
+  siteRepo: "",
+  siteLogo: "/static/images/logo.png",
+  socialBanner: "/static/images/twitter-card.png",
+  email: "address@yoursite.com",
+  github: "https://github.com",
+  twitter: "https://twitter.com/Twitter",
+  facebook: "https://facebook.com",
+  youtube: "https://youtube.com",
+  linkedin: "https://www.linkedin.com",
+  threads: "https://www.threads.net",
+  instagram: "https://www.instagram.com",
+  locale: "en-US",
   search: {
-    provider: 'kbar', // kbar or algolia
+    provider: "kbar", // kbar or algolia
     kbarConfig: {
-      searchDocumentsPath: 'search.json', // path to load documents to search
+      searchDocumentsPath: "search.json", // path to load documents to search
     },
     // provider: 'algolia',
     // algoliaConfig: {
@@ -33,6 +33,6 @@ const siteMetadata = {
     //   indexName: 'docsearch',
     // },
   },
-}
+};
 
-module.exports = siteMetadata
+module.exports = siteMetadata;

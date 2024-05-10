@@ -7,9 +7,8 @@ export default function Home() {
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <Homepage></Homepage>
-        </div>
+        <Homepage></Homepage>
+
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {/* {!posts.length && 'No posts found.'} */}
           {/* {posts.slice(0, MAX_DISPLAY).map((post) => {

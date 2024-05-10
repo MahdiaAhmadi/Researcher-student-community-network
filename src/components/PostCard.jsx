@@ -40,14 +40,20 @@ export default function PostCards() {
           </span>
         </div>
         <div className="relative ">
-          <p className="summary ">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Pellentesque id sem et magna pellentesque mollis. Cras congue a
-            tellus vestibulum rhoncus. Cras vel tellus at est pretium lacinia
-            vel quis eros. Proin molestie dolor dictum nisi volutpat tincidunt.
-            Aliquam accumsan erat non eros posuere, id porttitor lacus
-            efficitur.
-          </p>
+          <div className="post-details">
+            {isLoading && <div>Loading....</div>}
+            {error && <div>{error}</div>}
+            {post && (
+              <article>
+                <h2>{post.title}</h2>
+                <p>summary for this post {post.summary}</p>
+                <p>Date of creation: {post.created_at}</p>
+              </article>
+            )}
+            <button onClick={handleDelete}>Delete</button>
+            <button onClick={handleBack}>Back </button>
+          </div>
+
           <div className="reads absolute bottom-0 right-0 mt-4">Reads: 20</div>
           <hr class="my-4 border-t-2 border-fourth  mt-5" />
         </div>
