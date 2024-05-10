@@ -1,4 +1,3 @@
-import Link from "./Link";
 import FeaturesCard from "./FeaturesCard";
 import Contact from "./contact";
 
@@ -71,44 +70,44 @@ export default function HomePage() {
         </div>
       </div>
       <section className=" py-12">
-        <div className="container text-center">
-          <div>
-            <h2 className="text-sm font-bold mb-4 text-fifth hover:underline">
-              Our features{" "}
-            </h2>
-            <p className="text-white text-4xl mb-8 font-sans">
-              The service we offer is specifically designed <br />
-              to meet your Needs
-            </p>
+        <div className="w-full text-center">
 
-            <div className="features-card flex justify-between w-full mt-20">
-              <FeaturesCard
-                title="Publish Research"
-                body="Publish your Research papers and make it accessible inside a community ."
-                btn_title="Publish "
-                svg_icon={svg1}
-                path="/posts/create"
-              />
-              <FeaturesCard
-                title="Find Research"
-                body="Find Research Papers from different fields, Researchers, categories."
-                btn_title="Find"
-                svg_icon={svg2}
-                path="/posts/PostCards"
-              />
-              <FeaturesCard
-                title="Become Researcher"
-                body="measure the progression of your profile to become a researcher"
-                btn_title="Measure "
-                svg_icon={svg3}
-                path="#_"
-              />
-            </div>
+          <h2 className="text-sm font-bold mb-4 text-fifth hover:underline">
+            Our features{" "}
+          </h2>
+          <p className="text-white text-4xl mb-8 font-sans">
+            The service we offer is specifically designed <br />
+            to meet your Needs
+          </p>
+
+          <div className="features-card flex justify-between w-full mt-20">
+            <FeaturesCard
+              title="Publish Research"
+              body="Publish your Research papers and make it accessible inside a community ."
+              btn_title="Publish "
+              svg_icon={svg1}
+              path="/posts/create"
+            />
+            <FeaturesCard
+              title="Find Research"
+              body="Find Research Papers from different fields, Researchers, categories."
+              btn_title="Find"
+              svg_icon={svg2}
+              path="/posts/PostCards"
+            />
+            <FeaturesCard
+              title="Become Researcher"
+              body="measure the progression of your profile to become a researcher"
+              btn_title="Measure "
+              svg_icon={svg3}
+              path="#_"
+            />
           </div>
+
         </div>
       </section>
       <section>
-        <Contact></Contact>
+        <Contact />
       </section>
     </div>
   );
