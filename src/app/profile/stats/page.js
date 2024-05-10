@@ -9,7 +9,12 @@ export default function StatsConsult() {
           <ProfileDescription name="First Last" education="IPB" country="Portugal"/>
           <ProfileNavigation/>
           <div className="flex flex-cols py-10 justify-between max-w-3xl xl:max-w-5xl">
-            <PublicationStatus/>
+            <PublicationStatus
+              numCitations={10}
+              numRecommendations={20}
+              numFullReads={30}
+              numOtherReads={40}
+            />
           </div>
         </div>
     );
