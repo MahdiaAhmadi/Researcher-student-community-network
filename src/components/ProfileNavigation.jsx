@@ -1,5 +1,5 @@
 import Link from "next/link"
-const ProfileNavigation = ({ currentTab }) => {
+const ProfileNavigation = () => {
   return (
     <div className="bg-zinc-300 shadow flex items-center justify-between space-x-4 py-2 max-w-3xl xl:max-w-5xl h-fit rounded-md text-black">
       <div>
