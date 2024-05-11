@@ -22,5 +22,5 @@ export default function ProfileConsult() {
           <AffiliationsTable informationMap={{ "Description":1, "teste":2 }}/>
         </div>
       </div>
-  );
+  )
 }

@@ -1,19 +1,21 @@
 "use client";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
+import ScreenLoader from '@/components/ui/ScreenLoader';
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function RegisterAccount() {
-
-    const router = useRouter()
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [displayName, setDisplayName] = useState("");
     const [birthDate, setBirthDate] = useState("11-09-2001");
     const [password, setPassword] = useState("");
+    const router = useRouter();
+    const { status } = useSession();
 
     const createAccount = async () => {
 
@@ -49,14 +51,20 @@ export default function RegisterAccount() {
 
     };
 
+    if (status == "loading") {
+        return <ScreenLoader />
+    } else if (status == "authenticated") {
+        return redirect('/timeline')
+    }
+
     return (
         <div
             className={
-                "flex flex-col justify-center items-center bg-gradient-to-br"
+                "flex flex-col justify-center items-center bg-gradient-to-br h-[80.4dvh]"
             } >
-            <div className="sm:shadow-xl text-black px-8 pb-8 pt-5 sm:bg-white rounded-xl space-y-5 ">
+            <div className="text-black px-8 pb-8 pt-5 bg-white rounded-xl space-y-5 ">
                 <h1 className="text-center text-bold text-2xl">Sign Up</h1>
-                <div className="space-y-4 w-full sm:w-[400px]">
+                <div className="space-y-4 w-full">
                     <div className="grid w-full items-center">
                         <Label htmlFor="displayName"
                             label="Display Name" />

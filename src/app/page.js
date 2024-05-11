@@ -1,18 +1,18 @@
-"use client";
-import { signIn, useSession } from "next-auth/react";
-import Home from "./Main";
+"use client"
 
+import HomePage from '@/components/Homepage';
+import ScreenLoader from '@/components/ui/ScreenLoader';
+import { useSession } from "next-auth/react";
+import { redirect } from 'next/navigation';
 
 export default function Page() {
   const { data: session, status } = useSession();
   if (status === "unauthenticated") {
-    signIn()
-    return null
+    return <HomePage />
   } else if (status === "loading") {
-    return "Loading..."
+    return <ScreenLoader />
   } else if (status === "authenticated") {
-    return <Home />
+    return redirect('/timeline');
   }
-  return null
-
+  return null;
 }

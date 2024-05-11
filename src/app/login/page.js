@@ -1,17 +1,22 @@
 "use client";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { signIn } from "next-auth/react";
+import ScreenLoader from "@/components/ui/ScreenLoader";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+
+  const { status } = useSession();
+
   const onSubmit = async () => {
 
-    const res = await fetch("http://localhost:8000/user/login", {
+    const response = await fetch("http://localhost:8000/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,14 +26,15 @@ export default function LoginPage() {
         username: username,
         password: password,
       }),
-    });
+    }).then(res => res.json())
+      .catch(() => ({ code: 500, message: "Server Error" }));
 
-    const response = await res.json()
     if (response.code == 200) {
-      const user = response.data
+      const user = response.data;
       await signIn("credentials", {
-        username: user.username,
         email: user.email,
+        username: user.username,
+        displayName: user.display_name,
         institution: user.institution,
         redirect: true,
         callbackUrl: "/"
@@ -38,14 +44,20 @@ export default function LoginPage() {
     }
   };
 
+  if (status == "loading") {
+    return <ScreenLoader />
+  } else if (status == "authenticated") {
+    return redirect('/timeline')
+  }
+
   return (
     <div
       className={
-        "flex flex-col justify-center items-center bg-gradient-to-br"
+        " flex flex-col justify-center items-center bg-gradient-to-br h-[80.4dvh]"
       } >
-      <div className="sm:shadow-xl text-black px-8 pb-8 pt-5 sm:bg-white rounded-xl space-y-5 ">
+      <div className="text-black px-8 pb-8 pt-5 bg-white rounded-xl space-y-5 ">
         <h1 className="text-center text-bold text-2xl">Sign In</h1>
-        <div className="space-y-5 w-full sm:w-[400px]">
+        <div className="space-y-5 w-full">
           <div className="grid w-full items-center gap-1.5">
             <Label htmlFor="username"
               label="Username" />
@@ -84,5 +96,4 @@ export default function LoginPage() {
       </div>
     </div>
   );
-};
-
+}
