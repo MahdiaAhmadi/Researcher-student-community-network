@@ -1,5 +1,12 @@
+"use client"
 import { useState } from "react"
-const FollowingTable = ({ researchList, questionList, topicList }) => {
+const getPosts = async (id) => {
+  const res = await fetch("http://localhost:8000/user/id/" + id + "/liked-posts")
+      .then(res => res.json())
+      .catch(() => ({ code: 500, message: "Server Error" }));
+  return res.data
+}
+const FollowingTable = async ({ researchList, questionList, topicList}) => {
   const [FollowState, setFollowState] = useState(1);
 
   let displayList = [  ];
@@ -11,11 +18,11 @@ const FollowingTable = ({ researchList, questionList, topicList }) => {
       displayList = researchList
       break;
     case 2:
-      displayList = questionList
+      displayList = topicList
       break;
   }
   return (
-    <div className="flex flex-cols w-full ml-48 mr-48">
+    <div className="flex flex-cols w-full">
       <div className=" w-1/6 space-y-2">
         <div className="w-3/4 bg-white border border-black items-center py-2">
           <div className="ml-2 text-black">Following</div>

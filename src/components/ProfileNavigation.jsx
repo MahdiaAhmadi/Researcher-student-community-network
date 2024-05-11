@@ -1,3 +1,5 @@
+"use client"
+import ScreenLoader from "@/components/ui/ScreenLoader"
 import Link from "next/link"
 const ProfileNavigation = () => {
   return (

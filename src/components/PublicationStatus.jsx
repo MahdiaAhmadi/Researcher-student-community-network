@@ -1,6 +1,6 @@
 const PublicationStatus = ({ numCitations, numRecommendations, numFullReads, numOtherReads }) => {
   return (
-    <div className="w-full space-y-2">
+    <div className="w-full space-y-2 mx-48">
       <div className="bg-white border border-black items-center py-2">
         <div className="ml-2 text-black text-center">Publication Status</div>
       </div>

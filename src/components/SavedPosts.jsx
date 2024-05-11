@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react"
 
 const SavedPosts = ({ savedPosts, archivedPosts }) => {
@@ -30,9 +31,9 @@ const SavedPosts = ({ savedPosts, archivedPosts }) => {
           <button className="ml-6 hover:underline" onClick={() => {setPostState(2)}}>Archived ({archivedPosts.length})</button>
         </div>
       </div>
-      <div className="items-center w-full">
+      <div className="items-center w-full mr-48 justify-items-center grid">
         <div className="font-14 text-center py-2 text-xl text-bold">{title}</div>
-      <div className="bg-white w-full border border-black mx-8">
+      <div className="bg-white w-5/6 border border-black ">
         { displayList.map( (elem) => { return (<div className=" text-black text-center py-4">{elem}</div>) } )}
       </div>
       </div>
