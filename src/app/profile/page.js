@@ -16,10 +16,10 @@ export default function ProfileConsult() {
   if (status == "loading")
     return <ScreenLoader />
   return (
-      <div className="fixed">
+      <div className="h-screen w-full">
         <ProfileDescription name={ session.user.displayName } education="IPB" country="Portugal"/>
         <ProfileNavigation/>
-        <div className="flex flex-cols py-10 justify-between max-w-3xl xl:max-w-5xl">
+        <div className="flex flex-cols py-10 justify-between ml-48">
           <AboutMeTable informationMap={{ "Description":1, "teste":2 }}/>
           <AffiliationsTable informationMap={{ "Description":1, "teste":2 }}/>
         </div>

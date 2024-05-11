@@ -22,12 +22,12 @@ export default function SavedConsult() {
     const ql = [ "question1", "question2" ]
     const tl = [ "topic1", "topic2" ]
     return (
-        <div className="fixed">
+        <div className="w-full h-screen">
           <ProfileDescription name={ session.user.displayName } education="IPB" country="Portugal"/>
           <ProfileNavigation/>
-          <div className="flex flex-cols py-10 justify-between max-w-3xl xl:max-w-5xl">
+          <div className="flex flex-cols py-10 justify-between ">
             <FollowingTable researchList={rl} questionList={ql} topicList={tl}/>
           </div>
         </div>
-    );
+    )
 }
