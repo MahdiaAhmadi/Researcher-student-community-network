@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useSession } from "next-auth/react";
 import Link from "./Link";
@@ -20,7 +20,7 @@ export default function Header() {
           </div>
         </Link>
       </div>
-      {status === "authenticated" &&
+      {status === "authenticated" && (
         <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
           <Link
             href="/timeline"
@@ -31,7 +31,8 @@ export default function Header() {
           <SearchButton />
           <UserIcon />
           <MobileNav />
-        </div>}
+        </div>
+      )}
     </header>
   );
 }
