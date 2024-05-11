@@ -2,7 +2,7 @@
 import { ProfileDescription } from "@/components/ProfileDescription"
 import { ProfileNavigation  } from "@/components/ProfileNavigation"
 import { FollowingTable     } from "@/components/FollowingTable"
-import { ScreenLoader       } from "@/components/ScreenLoader"
+import   ScreenLoader         from "@/components/ui/ScreenLoader"
 import { signIn, useSession } from "next-auth/react";
 import { redirect           } from "next/navigation"
 const getPosts = async (id) => {
@@ -14,8 +14,10 @@ export default function SavedConsult() {
     onUnauthenticated() {
       redirect('/')
     },
-  });
-  const posts = getPoss(session.user.id)
+  })
+  if (status == "loading")
+    return <ScreenLoader />
+  const posts = getPosts(session.user.id)
     const rl = [ "research1", "research2" ]
     const ql = [ "question1", "question2" ]
     const tl = [ "topic1", "topic2" ]

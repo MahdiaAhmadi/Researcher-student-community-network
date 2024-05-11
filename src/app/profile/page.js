@@ -3,7 +3,7 @@ import { ProfileDescription } from "@/components/ProfileDescription"
 import { ProfileNavigation  } from "@/components/ProfileNavigation"
 import { AffiliationsTable  } from "@/components/AffiliationsTable"
 import { AboutMeTable       } from "@/components/AboutMeTable"
-import { ScreenLoader       } from "@/components/ScreenLoader"
+import   ScreenLoader         from "@/components/ui/ScreenLoader"
 import { signIn, useSession } from "next-auth/react";
 import { redirect           } from "next/navigation"
 export default function ProfileConsult() {
@@ -13,6 +13,8 @@ export default function ProfileConsult() {
       redirect('/')
     },
   })
+  if (status == "loading")
+    return <ScreenLoader />
   return (
       <div className="fixed">
         <ProfileDescription name={ session.user.displayName } education="IPB" country="Portugal"/>

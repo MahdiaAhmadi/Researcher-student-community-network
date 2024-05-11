@@ -2,7 +2,7 @@
 import { ProfileDescription } from "@/components/ProfileDescription"
 import { ProfileNavigation  } from "@/components/ProfileNavigation"
 import { PublicationStatus  } from "@/components/PublicationStatus"
-import { ScreenLoader       } from "@/components/ScreenLoader"
+import { ScreenLoader       } from "@/components/ui/ScreenLoader"
 import { signIn, useSession } from "next-auth/react"
 import { redirect           } from "next/navigation"
 export default function StatsConsult() {
@@ -11,7 +11,7 @@ export default function StatsConsult() {
     onUnauthenticated() {
       redirect('/')
     },
-  });
+  })
   if (status == "loading")
     return <ScreenLoader />
 
