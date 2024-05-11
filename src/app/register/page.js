@@ -1,19 +1,21 @@
 "use client";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
+import ScreenLoader from '@/components/ui/ScreenLoader';
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function RegisterAccount() {
-
-    const router = useRouter()
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [displayName, setDisplayName] = useState("");
     const [birthDate, setBirthDate] = useState("11-09-2001");
     const [password, setPassword] = useState("");
+    const router = useRouter();
+    const { status } = useSession();
 
     const createAccount = async () => {
 
@@ -48,6 +50,12 @@ export default function RegisterAccount() {
 
 
     };
+
+    if (status == "loading") {
+        return <ScreenLoader />
+    } else if (status == "authenticated") {
+        return redirect('/timeline')
+    }
 
     return (
         <div

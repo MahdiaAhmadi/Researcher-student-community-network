@@ -2,8 +2,11 @@
 
 import { Dropdown } from "flowbite-react";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function UserIcon() {
+
+  const router = useRouter();
   const { data: session } = useSession();
 
   return (
@@ -28,7 +31,9 @@ export default function UserIcon() {
         <span className="block text-sm">{session.user.displayName}</span>
         <span className="block truncate text-sm font-medium">{session.user.email}</span>
       </Dropdown.Header>
-      <Dropdown.Item onClick={() => console.log(session)}>Profile</Dropdown.Item>
+      <Dropdown.Item onClick={() => {
+        router.push('/profile')
+      }}>Profile</Dropdown.Item>
       <Dropdown.Item>Settings</Dropdown.Item>
       <Dropdown.Divider />
       <Dropdown.Item onClick={() => signOut()}>

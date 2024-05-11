@@ -1,5 +1,6 @@
+import "@/css/tailwind.css";
 import "pliny/search/algolia.css";
-import "../css/tailwind.css";
+import "./globals.css";
 
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -31,10 +32,10 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang={siteMetadata.language} className="scroll-smooth">
-
-      <body className="bg-[#072344] text-white h-screen w-full">
+      <body className="text-white h-screen w-full">
         <SectionContainer>
           <header className="sticky top-0 z-50">
             <Header />
@@ -48,7 +49,6 @@ export default function RootLayout({ children }) {
         </SectionContainer>
 
       </body>
-
-    </html>
+    </html >
   );
 }

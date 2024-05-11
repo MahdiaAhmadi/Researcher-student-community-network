@@ -1,7 +1,7 @@
 
 export default function PostCards() {
   return (
-    <div className="research-card bg-gray-200 text-fourth px-5 py-3 mt-6 hover:shadow-sm">
+    <div className="research-card bg-gray-200 text-fourth px-5 py-3 mt-6 rounded-md hover:shadow-sm">
       <div className="profile flex items-center justify-between">
         <div className="flex gap-3 mb-4">
           <svg
@@ -24,7 +24,7 @@ export default function PostCards() {
             <p>University School Name</p>
           </div>
         </div>
-        <button className="follow-button bg-secondary px-3 py-1 rounded-r-2xl rounded-l-2xl ">
+        <button className="follow-button bg-transparent px-3 py-1 rounded-2xl border-2 border-gray-400 hover:bg-gray-300 text-black">
           <i className="fas fa-star"></i> Follow
         </button>
       </div>
@@ -38,8 +38,7 @@ export default function PostCards() {
             Category 2
           </span>
         </div>
-        <div className="relative ">
-          <div className="post-details">
+        {/**<div className="post-details">
             {isLoading && <div>Loading....</div>}
             {error && <div>{error}</div>}
             {post && (
@@ -51,7 +50,8 @@ export default function PostCards() {
             )}
             <button onClick={handleDelete}>Delete</button>
             <button onClick={handleBack}>Back </button>
-          </div>
+          </div> */}
+        <div className="relative ">
 
           <div className="reads absolute bottom-0 right-0 mt-4">Reads: 20</div>
           <hr className="my-4 border-t-2 border-fourth  mt-5" />
@@ -66,7 +66,7 @@ export default function PostCards() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-6 h-6 hover:bg-gray-300"
           >
             <path
               strokeLinecap="round"
@@ -83,7 +83,7 @@ export default function PostCards() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-6 h-6 hover:bg-gray-300"
           >
             <path
               strokeLinecap="round"

@@ -86,21 +86,18 @@ export default function HomePage() {
               body="Publish your Research papers and make it accessible inside a community ."
               btn_title="Publish "
               svg_icon={svg1}
-              path="/posts/create"
             />
             <FeaturesCard
               title="Find Research"
               body="Find Research Papers from different fields, Researchers, categories."
               btn_title="Find"
               svg_icon={svg2}
-              path="/posts/PostCards"
             />
             <FeaturesCard
               title="Become Researcher"
               body="measure the progression of your profile to become a researcher"
               btn_title="Measure "
               svg_icon={svg3}
-              path="#_"
             />
           </div>
 

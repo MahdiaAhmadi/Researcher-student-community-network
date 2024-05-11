@@ -1,4 +1,21 @@
+"use client"
+
+import ScreenLoader from "@/components/ui/ScreenLoader";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+
 export default function ProfileConsult() {
+
+
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect('/')
+    },
+  });
+  if (status == "loading")
+    return <ScreenLoader />
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">

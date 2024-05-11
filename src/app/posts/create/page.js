@@ -1,285 +1,174 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Create = () => {
+
   const router = useRouter();
-  const [formData, setFormData] = useState({
-    title: "",
-    categoriesId: [],
-    authorId: "",
-    summary: "",
-    content: "",
-    commentsId: [],
-    researchLink: "",
-    visibility: 0,
-    filePath: "",
-    createdAt: new Date().toISOString(),
-  });
 
-  const validateFormData = (data) => {
-    const errors = {};
-    if (!data.title) errors.title = "Title is required";
-    if (!data.authorId) errors.authorId = "Author ID is required";
-    if (!data.summary) errors.summary = "Summary is required";
-    if (!data.content) errors.content = "Content is required";
-    if (!data.researchLink) errors.researchLink = "Research Link is required";
-    if (!data.filePath) errors.filePath = "File Path is required";
-    if (!data.categoriesId || data.categoriesId.length === 0)
-      errors.categoriesId = "Categories ID is required";
-    if (!data.commentsId || data.commentsId.length === 0)
-      errors.commentsId = "Comments ID is required";
-    if (data.visibility === 0) errors.visibility = "Visibility is required";
-    return { isValid: Object.keys(errors).length === 0, errors };
-  };
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect('/')
+    },
+  })
 
-  const transformData = (data) => {
-    return {
-      title: data.title,
-      categories_id: data.categoriesId,
-      author_id: data.authorId,
-      summary: data.summary,
-      content: data.content,
-      comments_id: data.commentsId,
-      research_link: data.researchLink,
-      visibility: data.visibility,
-      file_path: data.filePath,
-      created_at: data.createdAt,
-    };
-  };
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [categories_id, setCategories_id] = useState("");
+  const [author_id, setAuthor_id] = useState("");
+  const [summary, setSummary] = useState("");
+  const [comments_id, setComments_id] = useState("");
+  const [research_link, setResearch_link] = useState("");
+  const [visibility, setVisibility] = useState(0);
+  const [file_path, setFile_path] = useState("");
+  const [created_at, setCreated_at] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { isValid, errors } = validateFormData(formData);
-    if (!isValid) {
-      alert(Object.values(errors).join(", "));
-      return;
-    }
+    if (
+      title == "" ||
+      content == "" ||
+      summary == "" ||
+      author_id == "" ||
+      research_link == ""
+    ) {
+      alert("Are Missing Fields!");
+    } else {
+      const categoriesId = []; // Initialize an empty list for categories_id
+      const commentsId = []; // Initialize an empty list for comments_id
+      const visibility = 1; // Use an integer for visibility
+      const createdAt = new Date(); // Use a datetime object for created_at
 
-    const transformedData = transformData(formData);
-    try {
       const res = await fetch("http://localhost:8000/post/", {
-        method: "POST",
+        method: "Post",
         headers: {
           "Content-type": "application/json",
           "Access-Control-Allow-Origin": "*",
         },
-        body: JSON.stringify(transformedData),
+        body: JSON.stringify({
+          title: title,
+          categories_id: categoriesId, // Send an empty list for categories_id
+          author_id: author_id,
+          summary: summary,
+          content: content,
+          comments_id: commentsId, // Send an empty list for comments_id
+          research_link: research_link,
+          visibility: visibility, // Send an integer for visibility
+          file_path: file_path,
+          created_at: createdAt.toISOString(), // Send a datetime object as a string in ISO format
+        }),
       });
       const response = await res.json();
+
       if (response.code === 200) {
         router.push("/posts/timeline");
       } else {
         alert("Failed creating Post!");
       }
-    } catch (error) {
-      console.error(error);
-      alert("Error creating Post!");
+      console.log(response);
     }
   };
 
   return (
-    <div className="new-post bg-gray-200 text-fourth px-5 py-3 mt-1 shadow h-screen  ">
-      <div className="  border-fifth border-2 mb-2 rounded-2xl h-[100%]">
-        <h2 className="text-center py-5 font-bold text-2xl text-blue-400 ">
+    <div className="new-post bg-gray-200 text-fourth px-5 py-3 mt-6 shadow h-screen mb-2 ">
+      <div className="  border-fifth border-2 mb-2 rounded-2xl">
+        <h2 className="text-center py-5 font-bold text-2xl text-secondary ">
           Add New Post
         </h2>
-
-        <form onSubmit={handleSubmit} className="container mx-auto p-4 ">
-          <div class="mb-1 flex">
+        <form onSubmit={handleSubmit} className="max-w-sm mx-auto p-4 ">
+          <div className="mb-5">
             <label
-              for="researchTitle"
-              class="block text-sm font-medium text-gray-700 pr-2 "
+              className="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              for="title"
             >
-              Research Title<span class="text-red-500">*</span>
+              Post Title: <span className="text-red-500">*</span>
             </label>
             <input
+              id="title"
               type="text"
-              id="researchTitle"
-              name="researchTitle"
-              class="mt-1 p-2 w-full border rounded-md "
-              value={formData.title}
+              required
+              value={title}
               onChange={(e) => {
-                setFormData({ ...formData, title: e.target.value });
+                setTitle(e.target.value);
               }}
+              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             />
           </div>
-          <div class="mb-1 flex">
+          <div className="mb-5">
             <label
-              for="researchTitle"
-              class="block text-sm font-medium text-gray-700 pr-2 ">
-              Author Id <span class="text-red-500">*</span>
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              for="author"
+            >
+              Author_id: <span className="text-red-500">*</span>
             </label>
             <input
+              id="author"
               type="text"
-              id="researchTitle"
-              name="researchTitle"
-              class="mt-1 p-2 w-full border rounded-md "
-              value={formData.authorId}
-              onChange={(e) => {
-                setFormData({ ...formData, authorId: e.target.value });
-              }}
+              required
+              value={author_id}
+              onChange={(e) => setAuthor_id(e.target.value)}
+              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             />
           </div>
 
-          <div class="mb-1 flex">
+          <div className="mb-5">
             <label
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               for="content"
-              class="block text-sm font-medium text-gray-700 pr-2 ">
-              Content<span class="text-red-500">*</span>
+            >
+              Post Content: <span className="text-red-500">*</span>
             </label>
             <textarea
               id="content"
-              name="content"
-              rows="2"
-              class="mt-1 p-2 w-full  border rounded-md resize-none overflow-y-auto "
-              value={formData.content}
-              onChange={(e) => {
-                setFormData({ ...formData, content: e.target.value });
-              }}
+              required
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              rows="4"
+              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border resize-none overflow-hidden border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="content goes here..."
             ></textarea>
           </div>
 
-          <div class="mb-1 flex">
+          <div className="mb-5">
             <label
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               for="summary"
-              class="block text-sm font-medium text-gray-700 pr-2 ">
-              Summary<span class="text-red-500">*</span>
+            >
+              Post Summary: <span className="text-red-500">*</span>
             </label>
             <textarea
               id="summary"
-              name="summary"
-              rows="2"
-              class="mt-1 p-2 w-full border rounded-md resize-none overflow-y-auto "
-              value={formData.summary}
-              onChange={(e) => {
-                setFormData({ ...formData, summary: e.target.value });
-              }}
+              required
+              value={summary}
+              onChange={(e) => setSummary(e.target.value)}
+              rows="4"
+              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 resize-none overflow-hidden rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Summary goes here..."
             ></textarea>
           </div>
 
-          <div class="mb-1 flex">
+          <div className="mb-5">
             <label
-              for="researchLink"
-              class="block text-sm font-medium text-gray-700 pr-2 ">
-              Research Link<span class="text-red-500">*</span>
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              for="link"
+            >
+              Research_link: <span className="text-red-500">*</span>
             </label>
             <input
+              id="link"
               type="text"
-              id="researchLink"
-              name="researchLink"
-              class="mt-1 p-2 w-full  border rounded-md "
-              value={formData.researchLink}
-              onChange={(e) => {
-                setFormData({ ...formData, researchLink: e.target.value });
-              }}
+              required
+              value={research_link}
+              onChange={(e) => setResearch_link(e.target.value)}
+              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             />
           </div>
 
-          <div class="mb-1 flex">
-            <label
-              for="categoriesId"
-              class="block text-sm font-medium text-gray-700 pr-2 "
-            >
-              Categories ID<span class="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="categoriesId"
-              name="categoriesId"
-              class="mt-1 p-2 w-full  border rounded-md "
-              value={formData.categoriesId.join(",")}
-              onChange={(e) => {
-                setFormData({
-                  ...formData,
-                  categoriesId: e.target.value.split(","),
-                });
-              }}
-            />
-          </div>
-          <div class="mb-1 flex">
-            <label
-              for="commentsId"
-              class="block text-sm font-medium text-gray-700 pr-2 "
-            >
-              Comments ID<span class="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="commentsId"
-              name="commentsId"
-              class="mt-1 p-2 w-full  border rounded-md "
-              value={formData.commentsId.join(",")}
-              onChange={(e) => {
-                setFormData({
-                  ...formData,
-                  commentsId: e.target.value.split(","),
-                });
-              }}
-            />
-          </div>
-
-          <div class="mb-1 flex">
-            <label
-              for="visibility"
-              class="block text-sm font-medium text-gray-700 pr-2 "
-            >
-              Visibility<span class="text-red-500">*</span>
-            </label>
-            <select
-              id="visibility"
-              name="visibility"
-              class="mt-1 p-2 w-full border rounded-md "
-              value={formData.visibility}
-              onChange={(e) => {
-                setFormData({ ...formData, visibility: e.target.value });
-              }}
-            >
-              <option value="1">Visible</option>
-              <option value="0">Hidden</option>
-            </select>
-          </div>
-
-          <div class="mb-1 flex">
-            <label
-              for="filePath"
-              class="block text-sm font-medium text-gray-700 pr-2 "
-            >
-              File Path<span class="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="filePath"
-              name="filePath"
-              class="mt-1 p-2 w-full  border rounded-md "
-              value={formData.filePath}
-              onChange={(e) => {
-                setFormData({ ...formData, filePath: e.target.value });
-              }}
-            />
-          </div>
-
-          <div class="mb-1 flex">
-            <label
-              for="createdAt"
-              class="block text-sm font-medium text-gray-700 pr-2 "
-            >
-              Created At<span class="text-red-500">*</span>
-            </label>
-            <input
-              type="datetime-local"
-              id="createdAt"
-              name="createdAt"
-              class="mt-1 p-2 w-full  border rounded-md "
-              value={formData.createdAt}
-              onChange={(e) => {
-                setFormData({ ...formData, createdAt: e.target.value });
-              }}
-            />
-          </div>
-          <div className=" flex justify-center items-center">
-            <button class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-              Add Research
+          <div className="text-center mt-8 ">
+            <button className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-8 py-3 text-center me-2 mb-4 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+              Add Post
             </button>
           </div>
         </form>
