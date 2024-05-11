@@ -1,13 +1,18 @@
 "use client";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { signIn } from "next-auth/react";
+import ScreenLoader from "@/components/ui/ScreenLoader";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+
+  const { status } = useSession();
 
   const onSubmit = async () => {
 
@@ -38,6 +43,12 @@ export default function LoginPage() {
       alert(response.message)
     }
   };
+
+  if (status == "loading") {
+    return <ScreenLoader />
+  } else if (status == "authenticated") {
+    return redirect('/timeline')
+  }
 
   return (
     <div

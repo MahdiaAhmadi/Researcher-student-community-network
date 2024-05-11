@@ -1,21 +1,19 @@
-"use client";
+"use client"
+
 import HomePage from '@/components/Homepage';
-import { signIn, useSession } from "next-auth/react";
-import PostCards from '@/components/PostCard';
-import TimeLine from './timeline/page';
+import ScreenLoader from '@/components/ui/ScreenLoader';
+import { useSession } from "next-auth/react";
+import { redirect } from 'next/navigation';
 
 export default function Page() {
-  {/**const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
   if (status === "unauthenticated") {
-    signIn();
-    return null;
+    return <HomePage />
   } else if (status === "loading") {
-    return "Loading...";
+    return <ScreenLoader />
   } else if (status === "authenticated") {
-    return <HomePage />;
+    return redirect('/timeline');
   }
-  return null; */}
-  return (
-    <TimeLine/>
-  )
+  return null
+
 }

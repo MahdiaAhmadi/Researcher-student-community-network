@@ -1,5 +1,17 @@
+"use client";
+
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function PostCards() {
+
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect('/')
+    },
+  })
+
   return (
     <div className="research-card bg-gray-200 text-fourth px-5 py-3 mt-6 hover:shadow-sm">
       <div className="profile flex items-center justify-between">

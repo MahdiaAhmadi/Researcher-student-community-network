@@ -1,9 +1,18 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Create = () => {
+
   const router = useRouter();
+
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect('/')
+    },
+  })
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");

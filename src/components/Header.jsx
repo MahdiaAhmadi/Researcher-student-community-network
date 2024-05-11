@@ -23,7 +23,7 @@ export default function Header() {
       {status === "authenticated" &&
         <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
           <Link
-            href="/"
+            href="/timeline"
             className="hidden font-medium text-white-100 dark:text-gray-100 sm:block hover:border-b-2  hover:border-spacing-1 hover:border-primary-950  hover:   hover:transition duration-100 ease-in-out "
           >
             Home
