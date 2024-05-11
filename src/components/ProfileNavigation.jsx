@@ -6,6 +6,7 @@ const ProfileNavigation = () => {
     <div className="bg-zinc-300 shadow flex items-center justify-between space-x-4 py-2  h-16 rounded-md text-black">
       <div>
         <Link className="ml-48 px-8 py-4 hover:bg-black hover:text-white rounded-full" href="/profile">Profile</Link>
+        <Link className="px-8 py-4 hover:bg-black hover:text-white rounded-full" href="/profile/posts">Posts</Link>
         <Link className="px-8 py-4 hover:bg-black hover:text-white rounded-full" href="/profile/stats">Stats</Link>
         <Link className="px-8 py-4 hover:bg-black hover:text-white rounded-full" href="/profile/following">Following</Link>
         <Link className="px-8 py-4 hover:bg-black hover:text-white rounded-full" href="/profile/saved">Saved</Link>
