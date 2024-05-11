@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const Create = () => {
   const router = useRouter();
@@ -107,8 +107,7 @@ const Create = () => {
           <div class="mb-1 flex">
             <label
               for="researchTitle"
-              class="block text-sm font-medium text-gray-700 pr-2 "
-            >
+              class="block text-sm font-medium text-gray-700 pr-2 ">
               Author Id <span class="text-red-500">*</span>
             </label>
             <input
@@ -126,8 +125,7 @@ const Create = () => {
           <div class="mb-1 flex">
             <label
               for="content"
-              class="block text-sm font-medium text-gray-700 pr-2 "
-            >
+              class="block text-sm font-medium text-gray-700 pr-2 ">
               Content<span class="text-red-500">*</span>
             </label>
             <textarea
@@ -145,8 +143,7 @@ const Create = () => {
           <div class="mb-1 flex">
             <label
               for="summary"
-              class="block text-sm font-medium text-gray-700 pr-2 "
-            >
+              class="block text-sm font-medium text-gray-700 pr-2 ">
               Summary<span class="text-red-500">*</span>
             </label>
             <textarea
@@ -164,8 +161,7 @@ const Create = () => {
           <div class="mb-1 flex">
             <label
               for="researchLink"
-              class="block text-sm font-medium text-gray-700 pr-2 "
-            >
+              class="block text-sm font-medium text-gray-700 pr-2 ">
               Research Link<span class="text-red-500">*</span>
             </label>
             <input

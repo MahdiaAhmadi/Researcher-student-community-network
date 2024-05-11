@@ -1,4 +1,3 @@
-import { FaCoffee } from "react-icons/fa";
 
 export default function PostCards() {
   return (
@@ -55,7 +54,7 @@ export default function PostCards() {
           </div>
 
           <div className="reads absolute bottom-0 right-0 mt-4">Reads: 20</div>
-          <hr class="my-4 border-t-2 border-fourth  mt-5" />
+          <hr className="my-4 border-t-2 border-fourth  mt-5" />
         </div>
       </div>
       <div className="interactions flex  gap-12">
