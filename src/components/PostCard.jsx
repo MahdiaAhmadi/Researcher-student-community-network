@@ -1,12 +1,7 @@
-import { FaCoffee } from "react-icons/fa";
 
 export default function PostCards() {
   return (
-<<<<<<< HEAD
-    <div className="research-card bg-gray-200 text-fourth px-5 py-3 mt-6 shadow-md rounded-md ">
-=======
-    <div className="research-card bg-gray-200 text-fourth px-5 py-3 mt-6 hover:shadow-sm">
->>>>>>> 3c7503a3be647b5362514a6de983deac5de5b4e4
+    <div className="research-card bg-gray-200 text-fourth px-5 py-3 mt-6 rounded-md hover:shadow-sm">
       <div className="profile flex items-center justify-between">
         <div className="flex gap-3 mb-4">
           <svg
@@ -29,8 +24,8 @@ export default function PostCards() {
             <p>University School Name</p>
           </div>
         </div>
-        <button className="follow-button bg-transparent px-3 py-1 rounded-2xl border-2 border-gray-400 hover:bg-gray-300">
-          <i className="fas fa-star"></i> Follow
+        <button className="follow-button bg-transparent px-3 py-1 rounded-2xl border-2 border-gray-400 hover:bg-gray-300 text-black">
+                <i className="fas fa-star"></i> Follow
         </button>
       </div>
       <div className="research-info">
@@ -43,8 +38,7 @@ export default function PostCards() {
             Category 2
           </span>
         </div>
-        <div className="relative ">
-          <div className="post-details">
+        {/**<div className="post-details">
             {isLoading && <div>Loading....</div>}
             {error && <div>{error}</div>}
             {post && (
@@ -56,10 +50,11 @@ export default function PostCards() {
             )}
             <button onClick={handleDelete}>Delete</button>
             <button onClick={handleBack}>Back </button>
-          </div>
+          </div> */}
+        <div className="relative ">
 
           <div className="reads absolute bottom-0 right-0 mt-4">Reads: 20</div>
-          <hr class="my-4 border-t-2 border-fourth  mt-5" />
+          <hr className="my-4 border-t-2 border-fourth  mt-5" />
         </div>
       </div>
       <div className="interactions flex  gap-12">

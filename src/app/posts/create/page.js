@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const Create = () => {
   const router = useRouter();
@@ -74,7 +74,7 @@ const Create = () => {
               className="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               for="title"
             >
-              Post Title: <span class="text-red-500">*</span>
+              Post Title: <span className="text-red-500">*</span>
             </label>
             <input
               id="title"
@@ -92,7 +92,7 @@ const Create = () => {
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               for="author"
             >
-              Author_id: <span class="text-red-500">*</span>
+              Author_id: <span className="text-red-500">*</span>
             </label>
             <input
               id="author"
@@ -109,7 +109,7 @@ const Create = () => {
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               for="content"
             >
-              Post Content: <span class="text-red-500">*</span>
+              Post Content: <span className="text-red-500">*</span>
             </label>
             <textarea
               id="content"
@@ -127,7 +127,7 @@ const Create = () => {
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               for="summary"
             >
-              Post Summary: <span class="text-red-500">*</span>
+              Post Summary: <span className="text-red-500">*</span>
             </label>
             <textarea
               id="summary"
@@ -145,7 +145,7 @@ const Create = () => {
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               for="link"
             >
-              Research_link: <span class="text-red-500">*</span>
+              Research_link: <span className="text-red-500">*</span>
             </label>
             <input
               id="link"

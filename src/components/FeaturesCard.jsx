@@ -1,10 +1,14 @@
 import Link from "./Link";
 const FeaturesCard = ({ title, body, btn_title, svg_icon, path }) => {
   return (
-    <div className="p-6 max-w-sm mx-8 bg-white rounded-xl shadow-md flex justify-between space-x-4 w-[20%] h-60 scale-85">
-      <div className="flex-shrink-0">{svg_icon}</div>
+    <div className="p-6 mx-5 bg-white rounded-xl shadow-md">
+      <div className="flex justify-center">
+        {svg_icon}
+      </div>
       <div>
-        <div className="text-xl font-medium text-fifth mb-4">{title}</div>
+        <div className="text-xl font-medium text-fifth mb-4">
+          {title}
+        </div>
         <div className="h-full">
           <p className="text-gray-500 mb-7">{body}</p>
           <Link

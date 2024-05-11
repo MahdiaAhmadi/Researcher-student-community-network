@@ -1,12 +1,17 @@
+import Image from "next/image";
+
 const Contact = () => {
   return (
     <div className="bg-white mt-4 w-full flex space-x-10 ">
       <div className="md:flex-shrink-0 w-[50%]">
-        <img
+        <Image
+          style={{ width: "100%" }}
+          width={1000}
+          height={500}
           className=" object-cover rounded-lg"
           src="/social-media.png"
           alt="Team Discussion"
-        ></img>
+        />
       </div>
 
       <div className="mt-12  ">
@@ -28,7 +33,7 @@ const Contact = () => {
             <li>
               <a
                 href="#"
-                class="font-medium text-gray-600 hover:underline hover:text-fifth "
+                className="font-medium text-gray-600 hover:underline hover:text-fifth "
               >
                 Services
               </a>
@@ -36,7 +41,7 @@ const Contact = () => {
             <li>
               <a
                 href="#"
-                class="font-medium text-gray-600 hover:underline hover:text-fifth"
+                className="font-medium text-gray-600 hover:underline hover:text-fifth"
               >
                 Terms
               </a>
@@ -44,7 +49,7 @@ const Contact = () => {
             <li>
               <a
                 href="#"
-                class="font-medium text-gray-600 hover:underline hover:text-fifth"
+                className="font-medium text-gray-600 hover:underline hover:text-fifth"
               >
                 Policy
               </a>
