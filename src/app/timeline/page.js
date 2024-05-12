@@ -19,7 +19,7 @@ export default function TimeLine() {
             <div className="w-8/12 pl-12 no-scrollbar">
                 <div className='max-h-[79dvh] pl-2 overflow-y-scroll no-scrollbar'>
                     {[1, 2, 3, 4, 5, 6, 7, 8].map(i => {
-                        return <PostCards key={i} />
+                        return <PostCards key={i} postId={i} />
                     })
                     }
                 </div>
