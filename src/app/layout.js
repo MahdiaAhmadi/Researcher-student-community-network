@@ -20,10 +20,10 @@ export default function RootLayout({ children }) {
           <header className="sticky top-0 z-50">
             <Header />
           </header>
-          <main className="h-full">
+          <main className="min-h-[81.2dvh] mb-2">
             {children}
           </main>
-          <footer className="sticky bottom-0 z-50">
+          <footer className="w-full bottom-0 z-50">
             <Footer />
           </footer>
         </SectionContainer>
