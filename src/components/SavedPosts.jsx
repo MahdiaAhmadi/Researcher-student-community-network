@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import PostsCards from "@/components/PostCard"
 
 const SavedPosts = ({ savedPosts, archivedPosts }) => {
   const [PostState, setPostState] = useState(1)
@@ -34,7 +35,7 @@ const SavedPosts = ({ savedPosts, archivedPosts }) => {
       <div className="items-center w-full mr-48 justify-items-center grid">
         <div className="font-14 text-center py-2 text-xl text-bold">{title}</div>
       <div className="bg-white w-5/6 border border-black ">
-        { displayList.map( (elem) => { return (<div className=" text-black text-center py-4">{elem}</div>) } )}
+        { displayList.map( (elem) => { return (<PostsCards key={elem}/>) } )}
       </div>
       </div>
     </div>

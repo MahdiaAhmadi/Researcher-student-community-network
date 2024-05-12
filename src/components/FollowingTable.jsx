@@ -1,12 +1,8 @@
 "use client"
 import { useState } from "react"
-const getPosts = async (id) => {
-  const res = await fetch("http://localhost:8000/user/id/" + id + "/liked-posts")
-      .then(res => res.json())
-      .catch(() => ({ code: 500, message: "Server Error" }));
-  return res.data
-}
-const FollowingTable = async ({ researchList, questionList, topicList}) => {
+import PostsCards from "@/components/PostCard"
+
+const FollowingTable = ({ researchList, questionList, topicList}) => {
   const [FollowState, setFollowState] = useState(1);
 
   let displayList = [  ];
@@ -38,14 +34,7 @@ const FollowingTable = async ({ researchList, questionList, topicList}) => {
         <div className="font-14 text-center py-2 text-xl text-bold">Research You Followed</div>
         <div className="bg-white border border-black mb-8 mx-8">
           { displayList.map( (elem) => { return (
-            <div>
-              <div className=" text-black font-lg p-4">{elem}</div>
-              <div className="flex justify-end text-black font-light p-4">
-                <button className="hover:underline">Recommend</button>
-                <button className="px-4 hover:underline">Follow</button>
-                <button className="hover:underline">Share</button>
-              </div>
-            </div>
+            <PostsCards key={elem}/>
           ) } )}
         </div>
         <div>
