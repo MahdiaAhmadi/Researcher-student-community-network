@@ -7,9 +7,9 @@ const AboutMeTable = ({ informationMap }) => {
       <div className="w-5/6 bg-white border border-black items-center py-2 items-center">
         { Object.keys(informationMap).map((key) => {
           return (
-            <div>
+            <div className="my-2">
               <div className="text-black ml-4 font-bold">{key}</div>
-              <div className="text-black ml-6">value</div>
+              <div className="text-black ml-6">{informationMap[key]}</div>
             </div>
           )
         }) }
