@@ -1,34 +1,14 @@
-"use client"
-
-import ScreenLoader from "@/components/ui/ScreenLoader";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
-
+import { ProfileDescription } from "@/components/ProfileDescription"
+import { AffiliationsTable  } from "@/components/AffiliationsTable"
+import { AboutMeTable       } from "@/components/AboutMeTable"
 export default function ProfileConsult() {
-
-
-  const { status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect('/')
-    },
-  });
-  if (status == "loading")
-    return <ScreenLoader />
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p
-          className="fixed left-0 top-0 flex w-full justify-center border-b 
-                border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl 
-                dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  
-                lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30"
-        >
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
-        </p>
-      </div>
-    </main>
-  );
+      <ProfileDescription>
+        <AboutMeTable informationMap={
+          { "Description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "Skills":"Security, Computer Network" }
+        }/>
+        <AffiliationsTable institution="Instituto Politécnico de Bragança" location="Portugal" department="Department of Technology"/>
+      </ProfileDescription>
+  )
 }
