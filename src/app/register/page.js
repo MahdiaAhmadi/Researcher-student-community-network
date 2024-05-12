@@ -60,9 +60,9 @@ export default function RegisterAccount() {
     return (
         <div
             className={
-                "flex flex-col justify-center items-center bg-gradient-to-br h-[80.4dvh]"
+                "flex flex-col justify-center items-center bg-gradient-to-br h-[83.8dvh]"
             } >
-            <div className="text-black px-8 pb-8 pt-5 bg-white rounded-xl space-y-5 ">
+            <div className="w-2/6 text-black px-8 pb-8 pt-5 bg-white rounded-xl space-y-5 ">
                 <h1 className="text-center text-bold text-2xl">Sign Up</h1>
                 <div className="space-y-4 w-full">
                     <div className="grid w-full items-center">

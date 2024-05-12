@@ -3,13 +3,13 @@
 import { useSession } from "next-auth/react";
 import Link from "./Link";
 import MobileNav from "./MobileNav";
-import SearchButton from "./SearchButton";
+import SearchBar from "./SearchBar";
 import UserIcon from "./Usericon";
 
 export default function Header() {
   const { status } = useSession();
   return (
-    <header className="flex w-full items-center justify-between py-7  bg-secondary  px-10 ">
+    <header className="flex w-full items-center justify-between py-3  bg-secondary  px-10 ">
       <div>
         <Link href="/">
           <div className="flex items-center justify-between">
@@ -28,7 +28,7 @@ export default function Header() {
           >
             Home
           </Link>
-          <SearchButton />
+          <SearchBar />
           <UserIcon />
           <MobileNav />
         </div>

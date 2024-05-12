@@ -1,7 +1,15 @@
+"use client"
 
-export default function PostCards() {
+import Link from "next/link";
+
+
+export default function PostCards({ postId }) {
+
+  const linkUrl = "/posts/".concat(postId);
+
   return (
-    <div className="research-card bg-gray-200 text-fourth px-5 py-3 mt-6 rounded-md hover:shadow-sm">
+    <div
+      className="research-card bg-gray-200 text-fourth px-5 py-3 mt-6 rounded-md hover:shadow-sm">
       <div className="profile flex items-center justify-between">
         <div className="flex gap-3 mb-4">
           <svg
@@ -24,21 +32,24 @@ export default function PostCards() {
             <p>University School Name</p>
           </div>
         </div>
-        <button className="follow-button bg-transparent px-3 py-1 rounded-2xl border-2 border-gray-400 hover:bg-gray-300 text-black">
+        <button className="follow-button text-white bg-secondary px-3 py-1 rounded-r-2xl rounded-l-2xl ">
           <i className="fas fa-star"></i> Follow
         </button>
       </div>
-      <div className="research-info">
-        <h3 className="font-bold ">Title of Research</h3>
-        <div className="categories mt-6 mb-6 space-x-4  ">
-          <span className=" bg-sixth px-3 py-1 rounded-r-2xl rounded-l-2xl cursor-pointer">
-            Category 1
-          </span>
-          <span className=" bg-fifth px-3 py-1 rounded-r-2xl rounded-l-2xl cursor-pointer">
-            Category 2
-          </span>
-        </div>
-        {/**<div className="post-details">
+      <Link href={linkUrl}>
+        <div className="research-info">
+          <h1 className="font-bold text-2xl mb-1">Title of Research</h1>
+          <div className="flex flex-row items-center justify-start">
+            <div className="flex gap-3">
+              <div className="px-3 text-sm text-white bg-blue-500 rounded-2xl ring-2 ring-blue-800">
+                Category 1
+              </div>
+              <div className="px-3 text-sm text-white bg-yellow-500 rounded-2xl ring-2 ring-yellow-800">
+                Category 2
+              </div>
+            </div>
+          </div>
+          {/**<div className="post-details">
             {isLoading && <div>Loading....</div>}
             {error && <div>{error}</div>}
             {post && (
@@ -51,12 +62,13 @@ export default function PostCards() {
             <button onClick={handleDelete}>Delete</button>
             <button onClick={handleBack}>Back </button>
           </div> */}
-        <div className="relative ">
+          <div className="relative ">
 
-          <div className="reads absolute bottom-0 right-0 mt-4">Reads: 20</div>
-          <hr className="my-4 border-t-2 border-fourth  mt-5" />
+            <div className="reads absolute bottom-0 right-0 mt-4">Reads: 20</div>
+            <hr className="my-4 border-t-2 border-fourth  mt-5" />
+          </div>
         </div>
-      </div>
+      </Link>
       <div className="interactions flex  gap-12">
         <div className="likes flex gap-1 ">
           <i className="fas fa-thumbs-up"></i> 12
@@ -94,5 +106,6 @@ export default function PostCards() {
         </div>
       </div>
     </div>
+
   );
 }

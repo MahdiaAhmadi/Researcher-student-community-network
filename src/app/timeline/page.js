@@ -2,6 +2,7 @@
 
 import PostCards from '@/components/PostCard';
 import RecentViewPostCards from '@/components/RecentViewCard';
+import ScreenLoader from '@/components/ui/ScreenLoader';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 
@@ -14,12 +15,16 @@ export default function TimeLine() {
         },
     });
 
+    if (status == "loading") {
+        return <ScreenLoader />
+    }
+
     return (
-        <div className=" flex h-[79.3dvh]">
-            <div className="w-8/12 pl-12 no-scrollbar">
-                <div className='max-h-[79dvh] pl-2 overflow-y-scroll no-scrollbar'>
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map(i => {
-                        return <PostCards key={i} />
+        <div className="flex">
+            <div className="w-8/12 pl-12">
+                <div className='pl-2'>
+                    {[1, 2, 4, 5, 6, 7].map(i => {
+                        return <PostCards key={i} postId={i} />
                     })
                     }
                 </div>

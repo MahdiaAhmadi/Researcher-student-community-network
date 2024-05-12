@@ -53,7 +53,7 @@ export default function LoginPage() {
   return (
     <div
       className={
-        " flex flex-col justify-center items-center bg-gradient-to-br h-[80.4dvh]"
+        " flex flex-col justify-center items-center bg-gradient-to-br h-[83.8dvh]"
       } >
       <div className="text-black px-8 pb-8 pt-5 bg-white rounded-xl space-y-5 ">
         <h1 className="text-center text-bold text-2xl">Sign In</h1>
