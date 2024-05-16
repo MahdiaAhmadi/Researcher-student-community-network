@@ -1,7 +1,19 @@
+"use client";
+
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function PostCards() {
+
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect('/')
+    },
+  })
+
   return (
-    <div className="research-card bg-gray-200 text-fourth px-5 py-3 mt-6 rounded-md hover:shadow-sm">
+    <div className="research-card bg-gray-200 text-fourth px-5 py-3 mt-6 hover:shadow-sm">
       <div className="profile flex items-center justify-between">
         <div className="flex gap-3 mb-4">
           <svg
@@ -24,7 +36,7 @@ export default function PostCards() {
             <p>University School Name</p>
           </div>
         </div>
-        <button className="follow-button bg-transparent px-3 py-1 rounded-2xl border-2 border-gray-400 hover:bg-gray-300 text-black">
+        <button className="follow-button bg-secondary px-3 py-1 rounded-r-2xl rounded-l-2xl ">
           <i className="fas fa-star"></i> Follow
         </button>
       </div>
@@ -38,21 +50,15 @@ export default function PostCards() {
             Category 2
           </span>
         </div>
-        {/**<div className="post-details">
-            {isLoading && <div>Loading....</div>}
-            {error && <div>{error}</div>}
-            {post && (
-              <article>
-                <h2>{post.title}</h2>
-                <p>summary for this post {post.summary}</p>
-                <p>Date of creation: {post.created_at}</p>
-              </article>
-            )}
-            <button onClick={handleDelete}>Delete</button>
-            <button onClick={handleBack}>Back </button>
-          </div> */}
         <div className="relative ">
-
+          <p className="summary ">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Pellentesque id sem et magna pellentesque mollis. Cras congue a
+            tellus vestibulum rhoncus. Cras vel tellus at est pretium lacinia
+            vel quis eros. Proin molestie dolor dictum nisi volutpat tincidunt.
+            Aliquam accumsan erat non eros posuere, id porttitor lacus
+            efficitur.
+          </p>
           <div className="reads absolute bottom-0 right-0 mt-4">Reads: 20</div>
           <hr className="my-4 border-t-2 border-fourth  mt-5" />
         </div>
@@ -66,7 +72,7 @@ export default function PostCards() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6 hover:bg-gray-300"
+            className="w-6 h-6"
           >
             <path
               strokeLinecap="round"
@@ -83,7 +89,7 @@ export default function PostCards() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6 hover:bg-gray-300"
+            className="w-6 h-6"
           >
             <path
               strokeLinecap="round"
