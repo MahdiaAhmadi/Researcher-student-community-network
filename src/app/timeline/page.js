@@ -3,10 +3,23 @@
 import PostCards from '@/components/PostCard';
 import RecentViewPostCards from '@/components/RecentViewCard';
 import ScreenLoader from '@/components/ui/ScreenLoader';
+import { get } from '@/data/webService';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function TimeLine() {
+
+    const [timelineData, setTimelineData] = useState([])
+
+    useEffect(() => {
+        get("/post/")
+            .then((data) => {
+                console.log(data)
+                setTimelineData(data)
+            })
+
+    }, [])
 
     const { status } = useSession({
         required: true,
@@ -23,8 +36,11 @@ export default function TimeLine() {
         <div className="flex">
             <div className="w-8/12 pl-12">
                 <div className='pl-2'>
-                    {[1, 2, 4, 5, 6, 7].map(i => {
-                        return <PostCards key={i} postId={i} />
+                    {timelineData.map(post => {
+                        return <PostCards
+                            key={post.id}
+                            postId={post.id}
+                            data={post} />
                     })
                     }
                 </div>
