@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 
-export default function PostCards({ postId }) {
+export default function PostCards({ postId, data }) {
 
   const linkUrl = "/posts/".concat(postId);
 
@@ -38,7 +38,7 @@ export default function PostCards({ postId }) {
       </div>
       <Link href={linkUrl}>
         <div className="research-info">
-          <h1 className="font-bold text-2xl mb-1">Title of Research</h1>
+          <h1 className="font-bold text-2xl mb-1">{data?.title}</h1>
           <div className="flex flex-row items-center justify-start">
             <div className="flex gap-3">
               <div className="px-3 text-sm text-white bg-blue-500 rounded-2xl ring-2 ring-blue-800">
@@ -49,19 +49,6 @@ export default function PostCards({ postId }) {
               </div>
             </div>
           </div>
-          {/**<div className="post-details">
-            {isLoading && <div>Loading....</div>}
-            {error && <div>{error}</div>}
-            {post && (
-              <article>
-                <h2>{post.title}</h2>
-                <p>summary for this post {post.summary}</p>
-                <p>Date of creation: {post.created_at}</p>
-              </article>
-            )}
-            <button onClick={handleDelete}>Delete</button>
-            <button onClick={handleBack}>Back </button>
-          </div> */}
           <div className="relative ">
 
             <div className="reads absolute bottom-0 right-0 mt-4">Reads: 20</div>
@@ -71,7 +58,8 @@ export default function PostCards({ postId }) {
       </Link>
       <div className="interactions flex  gap-12">
         <div className="likes flex gap-1 ">
-          <i className="fas fa-thumbs-up"></i> 12
+          <i className="fas fa-thumbs-up" />
+          {data?.likes}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -88,7 +76,8 @@ export default function PostCards({ postId }) {
           </svg>
         </div>
         <div className="comments flex gap-1">
-          <i className="fas fa-comments"></i> 12
+          <i className="fas fa-comments" />
+          {data.comments_id.length}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
