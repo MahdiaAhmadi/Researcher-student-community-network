@@ -10,23 +10,28 @@ import { useEffect, useState } from 'react';
 
 export default function TimeLine() {
 
-    const [timelineData, setTimelineData] = useState([])
+    const [timelineData, setTimelineData] = useState([]);
+    const [userLikedPosts, setUserLikedPosts] = useState([]);
+    const userId = sessionStorage.getItem("userId")
 
-    useEffect(() => {
-        get("/post/")
-            .then((data) => {
-                console.log(data)
-                setTimelineData(data)
-            })
-
-    }, [])
-
-    const { status } = useSession({
+    const { data: session, status } = useSession({
         required: true,
         onUnauthenticated() {
             redirect('/')
         },
     });
+
+    useEffect(() => {
+        get(`/user/id/${userId}`)
+            .then(({ liked_posts_id }) => {
+                if (liked_posts_id)
+                    setUserLikedPosts(liked_posts_id)
+            })
+        get("/post/")
+            .then((data) => {
+                setTimelineData(data)
+            })
+    }, [])
 
     if (status == "loading") {
         return <ScreenLoader />
@@ -37,8 +42,11 @@ export default function TimeLine() {
             <div className="w-8/12 pl-12">
                 <div className='pl-2'>
                     {timelineData.map(post => {
+                        let liked = userLikedPosts.some(l => l == post.id)
                         return <PostCards
                             key={post.id}
+                            alreadyLiked={liked}
+                            userId={userId}
                             postId={post.id}
                             data={post} />
                     })

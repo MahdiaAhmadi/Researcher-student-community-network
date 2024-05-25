@@ -5,15 +5,15 @@ import Link from "next/link";
 import { useState } from "react";
 
 
-export default function PostCards({ postId, data }) {
+export default function PostCards({ userId, postId, alreadyLiked, data }) {
 
   const linkUrl = "/posts/".concat(postId);
   const [likes, setLikes] = useState(data?.likes ? data.likes : 0);
-  const [liked, setIsLiked] = useState(false);
+  const [liked, setIsLiked] = useState(alreadyLiked);
 
   const likePost = () => {
     if (!liked)
-      put("/post/like/".concat(postId)).then(() => {
+      put(`/post/like/${userId}/${postId}`).then(() => {
         let count = likes + 1
         setLikes(count);
         setIsLiked(true)
@@ -67,7 +67,7 @@ export default function PostCards({ postId, data }) {
       </Link>
       <div className="flex mt-2 gap-12">
         <div className="flex gap-1 ">
-          <span className="material-symbols-outlined text-black cursor-pointer "
+          <span className={"material-symbols-outlined cursor-pointer ".concat(liked ? "text-secondary" : "text-black")}
             onClick={likePost}>
             thumb_up
           </span>
