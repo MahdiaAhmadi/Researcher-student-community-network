@@ -25,6 +25,26 @@ function internalPost(url, body) {
     return fetch(baseURL + url, requestOptions)
 }
 
+
+function internalPut(url, body) {
+    var requestOptions = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify(body)
+    };
+
+    return fetch(baseURL + url, requestOptions)
+}
+
+export async function put(url, body) {
+    return internalPut(url, body)
+        .then(res => res.json())
+        .then(handleJsonResponse)
+}
+
 export async function get(url) {
     return internalGet(url)
         .then(res => res.json())
@@ -33,6 +53,7 @@ export async function get(url) {
 
 export async function post(url, body) {
     return internalPost(url, body, true)
+        .then(res => res.json())
         .then(handleJsonResponse)
 }
 
