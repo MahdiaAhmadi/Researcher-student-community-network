@@ -10,6 +10,10 @@ export default NextAuth({
         CredentialsProvider({
             name: "credentials",
             credentials: {
+                userId: {
+                    label: "UserId",
+                    type: "user_id",
+                },
                 email: {
                     label: "Email",
                     type: "email",
@@ -27,6 +31,7 @@ export default NextAuth({
             async authorize(credentials) {
 
                 const credentialDetails = {
+                    userId: credentials.userId,
                     email: credentials.email,
                     username: credentials.username,
                     displayName: credentials.displayName
@@ -40,6 +45,7 @@ export default NextAuth({
     callbacks: {
         jwt: async ({ token, user }) => {
             if (user) {
+                token.user_id = user.userId;
                 token.email = user.email;
                 token.username = user.username;
                 token.display_name = user.displayName;
@@ -50,6 +56,7 @@ export default NextAuth({
         },
         session: ({ session, token, user }) => {
             if (token) {
+                session.user.userId = token.user_id;
                 session.user.email = token.email;
                 session.user.username = token.username;
                 session.user.displayName = token.display_name;

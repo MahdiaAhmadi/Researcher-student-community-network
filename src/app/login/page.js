@@ -31,7 +31,9 @@ export default function LoginPage() {
 
     if (response.code == 200) {
       const user = response.data;
+      sessionStorage.setItem("userId", user.id)
       await signIn("credentials", {
+        userId: user.id,
         email: user.email,
         username: user.username,
         displayName: user.display_name,

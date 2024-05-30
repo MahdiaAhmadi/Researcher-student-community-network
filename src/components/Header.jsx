@@ -24,7 +24,7 @@ export default function Header() {
         <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
           <Link
             href="/timeline"
-            className="hidden font-medium text-white-100 dark:text-gray-100 sm:block hover:border-b-2  hover:border-spacing-1 hover:border-primary-950  hover:   hover:transition duration-100 ease-in-out "
+            className="hidden font-medium text-white-100 hover:border-b-2  hover:border-spacing-1 hover:border-primary-950 hover:transition duration-100 ease-in-out "
           >
             Home
           </Link>
