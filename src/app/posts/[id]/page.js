@@ -1,21 +1,34 @@
-"use client"
+"use client";
 
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
+export default function DetailPage({ params, postId }) {
+  const router = useRouter();
 
-export default function DetailPage({ params }) {
+  const id = params.id;
 
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(`http://localhost:8000/post/id/${postId}`, {
+        method: "DELETE",
+      });
 
-  const { status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect('/')
-    },
-  });
-
-  const id = params.id
+      if (res.code === 200) {
+        alert("Post deleted successfully!");
+        router.push("/posts/timeline"); // Redirect to the timeline after successful deletion
+      } else {
+        alert("Failed to delete the post!");
+      }
+    } catch (error) {
+      console.error("Error during deletion:", error);
+      alert(
+        "An error occurred while deleting the post. Please try again later."
+      );
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
@@ -23,7 +36,9 @@ export default function DetailPage({ params }) {
         <header className="p-4 bg-gray-100">
           <div className="flex">
             <Link href={"/timeline"}>
-              <span className="material-symbols-outlined text-black">arrow_back</span>
+              <span className="material-symbols-outlined text-black">
+                arrow_back
+              </span>
             </Link>
             <h1 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate">
               Title of the Research: A example of name {id}
@@ -50,8 +65,10 @@ export default function DetailPage({ params }) {
                 <p className="text-sm font-medium text-black">
                   Researcher Name
                 </p>
-                <button className="follow-button text-white bg-secondary px-3 ml-2 
-              text-xs mt-1  rounded-2xl">
+                <button
+                  className="follow-button text-white bg-secondary px-3 ml-2 
+              text-xs mt-1  rounded-2xl"
+                >
                   <i className="fas fa-star" /> Follow
                 </button>
               </div>
@@ -116,6 +133,18 @@ export default function DetailPage({ params }) {
                 />
               </svg>
             </div>
+          </div>
+          <hr className="border-1 border-gray-600"></hr>
+          <div className="handle-post flex items-end justify-end gap-3  ">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-7 rounded-full "
+              onClick={handleDelete}
+            >
+              Delete
+            </button>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-7 rounded-full">
+              Edit
+            </button>
           </div>
         </div>
       </article>
