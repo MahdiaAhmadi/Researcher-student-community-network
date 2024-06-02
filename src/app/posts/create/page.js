@@ -51,7 +51,6 @@ export default function CreatePost() {
       title === "" ||
       content === "" ||
       summary === "" ||
-      author_id === "" ||
       research_link === ""
     ) {
       alert("Missing Fields!");

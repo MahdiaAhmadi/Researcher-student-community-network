@@ -1,8 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 export default function DetailPage({ params, postId }) {

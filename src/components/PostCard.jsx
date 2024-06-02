@@ -55,12 +55,14 @@ export default function PostCards({ userId, postId, alreadyLiked, data }) {
           <p className="mb-1">{data?.summary}</p>
           <div className="flex flex-row items-center justify-start">
             <div className="flex gap-3">
-              <div className="px-3 text-sm text-white bg-blue-500 rounded-2xl ring-2 ring-blue-800">
-                Category 1
-              </div>
-              <div className="px-3 text-sm text-white bg-yellow-500 rounded-2xl ring-2 ring-yellow-800">
-                Category 2
-              </div>
+              {data?.categories.map(cat => {
+                return (
+                  <div key={cat.id} className="px-3 text-sm text-white bg-blue-500 rounded-2xl ring-2 ring-blue-800">
+                    {cat.name}
+                  </div>
+                )
+              })}
+
             </div>
           </div>
         </div>
