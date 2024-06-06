@@ -21,11 +21,11 @@ export default function TimeLine() {
   });
 
   useEffect(() => {
+
     get(`/user/id/${userId}`).then(({ liked_posts_id }) => {
       if (liked_posts_id) setUserLikedPosts(liked_posts_id);
     });
     get("/post/").then((data) => {
-      // Assuming 'data' is an array of posts and each post has a 'createdAt' timestamp
       const sortedData = data.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );

@@ -5,14 +5,14 @@ import Link from "next/link";
 import { useState } from "react";
 
 
-export default function PostCards({ userId, postId, alreadyLiked, data }) {
+export default function PostCards({ userId, postId, alreadyLiked, data, likedScreen }) {
 
   const linkUrl = "/posts/".concat(postId);
   const [likes, setLikes] = useState(data?.likes ? data.likes : 0);
   const [liked, setIsLiked] = useState(alreadyLiked);
 
   const likePost = () => {
-    if (!liked)
+    if (!liked && !likedScreen)
       put(`/post/like/${userId}/${postId}`).then(() => {
         let count = likes + 1
         setLikes(count);
@@ -67,21 +67,23 @@ export default function PostCards({ userId, postId, alreadyLiked, data }) {
           </div>
         </div>
       </Link>
-      <div className="flex mt-2 gap-12">
-        <div className="flex gap-1 ">
-          <span className={"material-symbols-outlined cursor-pointer ".concat(liked ? "text-secondary" : "text-black")}
-            onClick={likePost}>
-            thumb_up
-          </span>
-          {likes}
-        </div>
-        <div className="flex gap-1">
-          <span className="material-symbols-outlined text-black cursor-pointer ">
-            chat_bubble
-          </span>
-          {data.comments_id.length}
-        </div>
-      </div>
+      {!likedScreen &&
+        <div className="flex mt-2 gap-12">
+          <div className="flex gap-1 ">
+            <span className={"material-symbols-outlined cursor-pointer ".concat(liked ? "text-secondary" : "text-black")}
+              onClick={likePost}>
+              thumb_up
+            </span>
+            {likes}
+          </div>
+
+          <div className="flex gap-1">
+            <span className="material-symbols-outlined text-black cursor-pointer ">
+              chat_bubble
+            </span>
+            {data?.comments_id?.length}
+          </div>
+        </div>}
     </div>
 
   );

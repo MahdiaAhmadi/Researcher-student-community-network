@@ -9,7 +9,8 @@ export default function UserIcon() {
   const { data: session } = useSession();
 
   return (
-    <Dropdown label=""
+    <Dropdown
+      label=""
       inline
       renderTrigger={() =>
         <svg
