@@ -2,21 +2,51 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
-export default function DetailPage({ params, postId }) {
+export default function DetailPage({ params }) {
   const router = useRouter();
 
   const id = params.id;
+  const [postData, setPostData] = useState({}); // Initialize an empty object to store post data
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    //fetch post data from API based on Id
+    async function fetchPostData() {
+      try {
+        const res = await fetch(`http://localhost:8000/post/id/${id}`);
+        const data = await res.json();
+        if (data) {
+          setPostData(data);
+          setLoading(false);
+        } else {
+          console.error("No data returned from API");
+        }
+      } catch (error) {
+        console.error("Error fetching post data:", error);
+      }
+    }
+    fetchPostData();
+  }, [id]);
+
+  useEffect(() => {
+    console.log("postData:", postData);
+  }, [postData]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:8000/post/id/${postId}`, {
+      const res = await fetch(`http://localhost:8000/post/id/${id}`, {
         method: "DELETE",
       });
 
       if (res.code === 200) {
         alert("Post deleted successfully!");
-        router.push("/posts/timeline"); // Redirect to the timeline after successful deletion
+        router.push("/timeline"); // Redirect to the timeline after successful deletion
       } else {
         alert("Failed to delete the post!");
       }
@@ -39,7 +69,7 @@ export default function DetailPage({ params, postId }) {
               </span>
             </Link>
             <h1 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate">
-              Title of the Research: A example of name {id}
+              {postData.title}
             </h1>
           </div>
 
@@ -89,30 +119,9 @@ export default function DetailPage({ params, postId }) {
         <div className="p-4 prose max-w-none text-gray-700 bg-white">
           <div className="flex justify-center items-center mb-4"></div>
           <p className="text-lg font-bold">Summary</p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem
-            voluptatibus, quae dolores natus eaque, illum iusto fuga
-            consequuntur, aspernatur rem quod? Nihil, accusamus.
-          </p>
+          <p>{postData.summary}</p>
           <p className="text-lg font-bold">Content</p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Pellentesque id sem et magna pellentesque mollis. Cras congue a
-            tellus vestibulum rhoncus. Cras vel tellus at est pretium lacinia
-            vel quis eros. Proin molestie dolor dictum nisi volutpat tincidunt.
-            Aliquam accumsan erat non eros posuere, id porttitor lacus
-            efficitur.Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Pellentesque id sem et magna pellentesque mollis. Cras congue a
-            tellus vestibulum rhoncus. Cras vel tellus at est pretium lacinia
-            vel quis eros. Proin molestie dolor dictum nisi volutpat tincidunt.
-            Aliquam accumsan erat non eros posuere, id porttitor lacus
-            efficitur.Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Pellentesque id sem et magna pellentesque mollis. Cras congue a
-            tellus vestibulum rhoncus. Cras vel tellus at est pretium lacinia
-            vel quis eros. Proin molestie dolor dictum nisi volutpat tincidunt.
-            Aliquam accumsan erat non eros posuere, id porttitor lacus
-            efficitur.
-          </p>
+          <p>{postData.content}</p>
           <div className="mt-4">
             <p className="text-lg font-bold">Files</p>
             <div className="flex items-center justify-center h-32 bg-gray-200 rounded-md">
