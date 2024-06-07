@@ -16,32 +16,25 @@ export default function LoginPage() {
 
   const onSubmit = async () => {
 
-    const response = await fetch("http://localhost:8000/user/login", {
+    const response = await fetch("http://localhost:8000/user/token", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
+      body: `grant_type=password&username=${username}&password=${password}`,
     }).then(res => res.json())
       .catch(() => ({ code: 500, message: "Server Error" }));
 
-    if (response.code == 200) {
-      const user = response.data;
       await signIn("credentials", {
-        email: user.email,
-        username: user.username,
-        displayName: user.display_name,
-        institution: user.institution,
+        token: response.access_token,
+        email: response.email,
+        username: response.username,
+        displayName: response.display_name,
+        institution: response.institution,
         redirect: true,
         callbackUrl: "/"
       });
-    } else {
-      alert(response.message)
-    }
   };
 
   if (status == "loading") {

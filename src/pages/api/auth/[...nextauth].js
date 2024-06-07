@@ -29,7 +29,8 @@ export default NextAuth({
                 const credentialDetails = {
                     email: credentials.email,
                     username: credentials.username,
-                    displayName: credentials.displayName
+                    displayName: credentials.displayName,
+                    token: credentials.token
                 };
 
                 return credentialDetails
