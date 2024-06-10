@@ -34,7 +34,8 @@ export default NextAuth({
                     userId: credentials.userId,
                     email: credentials.email,
                     username: credentials.username,
-                    displayName: credentials.displayName
+                    displayName: credentials.displayName,
+                    token: credentials.token
                 };
 
                 return credentialDetails
