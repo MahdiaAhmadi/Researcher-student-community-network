@@ -1,12 +1,16 @@
+import { signOut } from "next-auth/react";
+
 export const baseURL = "http://localhost:8000";
 
 
 function internalGet(url) {
+    console.log(sessionStorage.getItem("token"))
     const requestOptions = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': sessionStorage.getItem("token")
         }
     };
     return fetch(baseURL + url, requestOptions)
@@ -17,7 +21,8 @@ function internalPost(url, body) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': sessionStorage.getItem("token")
         },
         body: JSON.stringify(body)
     };
@@ -31,7 +36,8 @@ function internalPut(url, body) {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': sessionStorage.getItem("token")
         },
         body: JSON.stringify(body)
     };
@@ -41,24 +47,37 @@ function internalPut(url, body) {
 
 export async function put(url, body) {
     return internalPut(url, body)
-        .then(res => res.json())
+        .then(res => {
+            if (res.status == 401)
+                signOut()
+            return res.json()
+        })
         .then(handleJsonResponse)
 }
 
 export async function get(url) {
     return internalGet(url)
-        .then(res => res.json())
+        .then(res => {
+            if (res.status == 401)
+                signOut()
+            return res.json()
+        })
         .then(handleJsonResponse)
 }
 
 export async function post(url, body) {
     return internalPost(url, body, true)
-        .then(res => res.json())
+        .then(res => {
+            if (res.status == 401)
+                signOut()
+            return res.json()
+        })
         .then(handleJsonResponse)
 }
 
 
 async function handleJsonResponse(response) {
+    console.log(response)
     isAuthenticate(response)
     if (response.code != 200) {
         throw Error(response.message);

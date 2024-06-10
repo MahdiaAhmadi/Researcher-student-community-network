@@ -22,7 +22,7 @@ export default function TimeLine() {
 
   useEffect(() => {
 
-    get(`/user/id/${userId}`).then(({ liked_posts_id }) => {
+    get(`/user/by-token`).then(({ liked_posts_id }) => {
       if (liked_posts_id) setUserLikedPosts(liked_posts_id);
     });
     get("/post/").then((data) => {
