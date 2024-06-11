@@ -10,6 +10,7 @@ export default function UserIcon() {
 
   return (
     <Dropdown
+
       label=""
       inline
       renderTrigger={() =>
@@ -28,18 +29,22 @@ export default function UserIcon() {
           />
         </svg>}>
       <Dropdown.Header>
-        <span className="block text-sm">{session.user.displayName}</span>
-        <span className="block truncate text-sm font-medium">{session.user.email}</span>
+        <span className="block text-black text-sm">{session.user.displayName}</span>
+        <span className="block text-black truncate text-sm font-medium">{session.user.email}</span>
       </Dropdown.Header>
       <Dropdown.Item>
         <Link href={"/profile"}>
-          Profile
+          <span className=" text-black">Profile</span>
         </Link>
       </Dropdown.Item>
-      <Dropdown.Item>Settings</Dropdown.Item>
+      <Dropdown.Item className="text-black">
+        <Link href={"/profile/change-password"}>
+          <span className=" text-black">Change Password</span>
+        </Link>
+      </Dropdown.Item>
       <Dropdown.Divider />
       <Dropdown.Item onClick={() => signOut()}>
-        Sign out
+        <span className=" text-black"> Sign out</span>
       </Dropdown.Item>
     </Dropdown>
   );
