@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 export default function TimeLine() {
   const [timelineData, setTimelineData] = useState([]);
   const [userLikedPosts, setUserLikedPosts] = useState([]);
+  const [follows, setFollows] = useState([]);
+
   const userId = sessionStorage.getItem("userId");
 
   const { data: session, status } = useSession({
@@ -22,15 +24,16 @@ export default function TimeLine() {
 
   useEffect(() => {
 
-    get(`/user/by-token`).then(({ liked_posts_id }) => {
+    get(`/user/by-token`).then(({ liked_posts_id, follows_id }) => {
       if (liked_posts_id) setUserLikedPosts(liked_posts_id);
-    });
+      if (follows_id) setFollows(follows_id);
+    }).catch(() => null);
     get("/post/").then((data) => {
       const sortedData = data.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
       setTimelineData(sortedData);
-    });
+    }).catch(() => null);
   }, []);
 
   if (status == "loading") {
@@ -43,12 +46,14 @@ export default function TimeLine() {
         <div className="pl-2">
           {timelineData.map((post) => {
             let liked = userLikedPosts.some((l) => l == post.id);
+            let followUser = follows.some((l) => l == post.author_id);
             return (
               <PostCards
                 key={post.id}
                 alreadyLiked={liked}
                 userId={userId}
                 postId={post.id}
+                authorIsFollowed={followUser}
                 data={post}
               />
             );

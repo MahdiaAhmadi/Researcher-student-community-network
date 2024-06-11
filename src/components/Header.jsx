@@ -22,10 +22,10 @@ export default function Header() {
       </div>
       {status === "authenticated" && (
         <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
+          <Link className="rounded-full bg-white text-black font-bold p-3" href="/posts/create">+ Add Research</Link>
           <Link
             href="/timeline"
-            className="hidden font-medium text-white-100 hover:border-b-2  hover:border-spacing-1 hover:border-primary-950 hover:transition duration-100 ease-in-out "
-          >
+            className="hidden font-medium text-white-100 hover:border-b-2  hover:border-spacing-1 hover:border-primary-950 hover:transition duration-100 ease-in-out">
             Home
           </Link>
           <SearchBar />

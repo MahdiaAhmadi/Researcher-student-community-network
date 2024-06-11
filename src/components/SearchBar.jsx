@@ -12,16 +12,17 @@ export default function SearchBar() {
 
   return (
     <div
-      className="flex">
+      className="flex bg-white rounded-3xl">
 
       <input
         type="text"
         placeholder="Search Subject"
         value={searchTerm}
         onChange={handleInputChange}
-        className="text-black rounded-3xl"
+        className="text-black rounded-3xl border-none"
       />
-      <Link href={"/search/publications/".concat(searchTerm.replace(" ", "_"))}>
+      <Link href={"/search/publications/".concat(searchTerm.replace(" ", "_"))}
+        className="h-[24px] mt-2 mr-2">
         <span className="material-symbols-outlined text-black">search</span>
       </Link>
 

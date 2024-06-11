@@ -1,23 +1,38 @@
 "use client"
 
-import { put } from "@/data/webService";
+import { post, put } from "@/data/webService";
 import Link from "next/link";
 import { useState } from "react";
 
 
-export default function PostCards({ userId, postId, alreadyLiked, data, likedScreen }) {
+export default function PostCards({ userId, postId, alreadyLiked, data, likedScreen, authorIsFollowed }) {
 
   const linkUrl = "/posts/".concat(postId);
   const [likes, setLikes] = useState(data?.likes ? data.likes : 0);
   const [liked, setIsLiked] = useState(alreadyLiked);
 
   const likePost = () => {
-    if (!liked && !likedScreen)
-      put(`/post/like/${userId}/${postId}`).then(() => {
-        let count = likes + 1
-        setLikes(count);
-        setIsLiked(true)
-      })
+    if (!liked && !likedScreen) {
+      let count = likes + 1;
+      put(`/post/like/${postId}`)
+        .then(() => {
+          setLikes(count);
+          setIsLiked(true)
+        }).catch(() => {
+          setLikes(count);
+          setIsLiked(true)
+        })
+    }
+
+  }
+
+  const followUser = () => {
+    if (!authorIsFollowed)
+      post(`/user/follow-user/${data.author_id}`)
+        .then(() => {
+          alert("Followed")
+        }).catch(() => null)
+
   }
 
   return (
@@ -45,14 +60,15 @@ export default function PostCards({ userId, postId, alreadyLiked, data, likedScr
             <p>University School Name</p>
           </div>
         </div>
-        <button className="follow-button text-white bg-secondary px-3 py-1 rounded-r-2xl rounded-l-2xl ">
-          <i className="fas fa-star"></i> Follow
-        </button>
+        {(userId != data?.author_id) &&
+          <button className={"follow-button text-white bg-secondary px-3 py-1 rounded-r-2xl rounded-l-2xl ".concat(authorIsFollowed ? " opacity-50 cursor-not-allowed" : "")}
+            disabled={authorIsFollowed} onClick={followUser}>
+            <i className="fas fa-star" />{authorIsFollowed ? "Followed" : "Follow"}
+          </button>}
       </div>
       <Link href={linkUrl}>
         <div className="research-info">
           <h1 className="font-bold text-2xl mb-1">{data?.title}</h1>
-          <p className="mb-1">{data?.summary}</p>
           <div className="flex flex-row items-center justify-start">
             <div className="flex gap-3">
               {data?.categories.map(cat => {
@@ -65,6 +81,7 @@ export default function PostCards({ userId, postId, alreadyLiked, data, likedScr
 
             </div>
           </div>
+          <p className="mb-1">{data?.summary}</p>
         </div>
       </Link>
       {!likedScreen &&
