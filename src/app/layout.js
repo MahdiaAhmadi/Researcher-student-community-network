@@ -15,7 +15,8 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang={siteMetadata.language} className="scroll-smooth">
-      <body className={"text-white h-screen w-full ".concat(lexend.className)}>
+      <body className={"text-white h-screen w-full ".concat
+        (lexend.className)}>
         <SectionContainer>
           <header className="sticky top-0 z-50">
             <Header />

@@ -7,12 +7,11 @@ import { redirect } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function Page() {
-  const userId = sessionStorage.getItem("userId");
+
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    if ((userId == null || userId == undefined)
-      && status === "authenticated") {
+    if (status === "authenticated") {
       signOut();
     }
   }, [])
