@@ -1,9 +1,12 @@
 "use client"
 import { useState } from "react"
 
-const AboutMeTable = ({ Description, Skills }) => {
+function emptysave({description, skills}) { console.log("Saving") }
+// SaveFunction should be the function responsible for saving the updated user information to the database.
+// should have a parameter description for the new description text and a parameter skills for the new skills array
+const AboutMeTable = ({ Description, Skills, SaveFunction = emptysave}) => {
   const [Editable, setEditable] = useState(false);
-  const [text, setText] = useState(Description);
+  const [DescriptionText, setDescriptionText] = useState(Description);
   const [SkillArr, setSkillArr] = useState(Skills);
 
   function handleNewSkill() {
@@ -17,6 +20,15 @@ const AboutMeTable = ({ Description, Skills }) => {
     setSkillArr(arr)
   }
 
+  function handleEditButton() {
+    if(Editable) {
+      if(Description !== DescriptionText || Skills !== SkillArr) {
+        SaveFunction({ description:DescriptionText, skills:SkillArr })
+      }
+    }
+    setEditable(!Editable)
+  }
+
   return (
     <div className="w-1/2 space-y-2">
       <div className=" w-5/6 bg-white border border-black items-center py-2">
@@ -24,9 +36,9 @@ const AboutMeTable = ({ Description, Skills }) => {
       </div>
       <div className="w-5/6 bg-white border border-black items-center py-2 items-center">
             <div className="my-2">
-              <button className="text-black bg-blue-500 rounded ml-4 px-1" onClick={() => setEditable(!Editable)}>{ Editable ? "Save" : "Edit"}</button>
+              <button className="text-black bg-blue-500 rounded ml-4 px-1" onClick={handleEditButton}>{ Editable ? "Save" : "Edit"}</button>
               <div className="text-black ml-4 font-bold">Description</div>
-              <div className="text-black ml-6" contentEditable={Editable} suppressContentEditableWarning={true}>{text}</div>
+              <div className="text-black ml-6" contentEditable={Editable} suppressContentEditableWarning={true} onInput={(e) => {setDescriptionText(e.target.innerText); console.log(DescriptionText)}}>{Description}</div>
             </div>
             <div className="my-2">
               <div className="text-black ml-4 mr-6 font-bold justify-between flex">
