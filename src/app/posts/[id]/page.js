@@ -8,7 +8,7 @@ export default function DetailPage({ params }) {
   const router = useRouter();
 
   const id = params.id;
-  const [postData, setPostData] = useState({}); // Initialize an empty object to store post data
+  const [postData, setPostData] = useState(null); // Initialize an empty object to store post data
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,6 +17,7 @@ export default function DetailPage({ params }) {
       try {
         const res = await fetch(`http://localhost:8000/post/id/${id}`);
         const data = await res.json();
+        console.log("Data fetched from API:", data);
         if (data) {
           setPostData(data);
           setLoading(false);
@@ -36,6 +37,9 @@ export default function DetailPage({ params }) {
 
   if (loading) {
     return <div>Loading...</div>;
+  }
+  if (!postData) {
+    return <div>No post data found</div>;
   }
 
   const handleDelete = async () => {
@@ -68,9 +72,12 @@ export default function DetailPage({ params }) {
                 arrow_back
               </span>
             </Link>
-            <h1 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate">
-              {postData.title}
-            </h1>
+
+            {postData && ( // Add this conditional statement
+              <h1 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate">
+                {postData.title}
+              </h1>
+            )}
           </div>
 
           <div className="flex flex-row items-center mt-2">
@@ -118,10 +125,14 @@ export default function DetailPage({ params }) {
         </header>
         <div className="p-4 prose max-w-none text-gray-700 bg-white">
           <div className="flex justify-center items-center mb-4"></div>
-          <p className="text-lg font-bold">Summary</p>
-          <p>{postData.summary}</p>
-          <p className="text-lg font-bold">Content</p>
-          <p>{postData.content}</p>
+          {postData && ( // Add this conditional statement
+            <>
+              <p className="text-lg font-bold">Summary</p>
+              <p>{postData.summary}</p>
+              <p className="text-lg font-bold">Content</p>
+              <p>{postData.content}</p>
+            </>
+          )}
           <div className="mt-4">
             <p className="text-lg font-bold">Files</p>
             <div className="flex items-center justify-center h-32 bg-gray-200 rounded-md">
