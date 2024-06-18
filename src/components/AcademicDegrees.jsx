@@ -14,8 +14,8 @@ const AcademicDegrees = ({ DegreeArray , SetDegreeArray, SaveFunction = emptysav
     let degree = {
       title: "New Degree",
       institution: "New Degree",
-      start_date: "0000-00-00",
-      graduation_date: "0000-00-00"
+      start_date: "2000-01-01",
+      graduation_date: "2000-01-10"
     }
     let arr = [...DegreeArray]
     arr.push(degree)
@@ -53,11 +53,11 @@ const AcademicDegrees = ({ DegreeArray , SetDegreeArray, SaveFunction = emptysav
               </div>
               <div className="text-black ml-6 flex">
                 <div>Start Date: </div>
-                <div contentEditable={Editable} suppressContentEditableWarning={true} onInput={(e) => {DegreeArray[index].start_date = e.target.innerText}}>{item.start_date}</div>
+                <input aria-label="Date" type="date" onChange={(date) => { DegreeArray[index].start_date = date.target.value }} defaultValue={item.start_date}/>
               </div>
               <div className="text-black ml-6 flex">
                 <div>Graduation Date: </div>
-                <div contentEditable={Editable} suppressContentEditableWarning={true} onInput={(e) => {DegreeArray[index].graduation_date = e.target.innerText}}>{item.graduation_date}</div>
+                <input aria-label="Date" type="date" onChange={(date) => { DegreeArray[index].graduation_date = date.target.value }} defaultValue={item.graduation_date}/>
               </div>
             </div>
           )
