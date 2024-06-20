@@ -45,8 +45,31 @@ function internalPut(url, body) {
     return fetch(baseURL + url, requestOptions)
 }
 
+function internalDelete(url) {
+    var requestOptions = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': sessionStorage.getItem("token")
+        }
+    };
+
+    return fetch(baseURL + url, requestOptions)
+}
+
 export async function put(url, body) {
     return internalPut(url, body)
+        .then(res => {
+            if (res.status == 401)
+                signOut()
+            return res.json()
+        })
+        .then(handleJsonResponse)
+}
+
+export async function deletereq(url) {
+    return internalDelete(url, body)
         .then(res => {
             if (res.status == 401)
                 signOut()
