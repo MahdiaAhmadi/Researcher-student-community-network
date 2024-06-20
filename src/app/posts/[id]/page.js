@@ -12,6 +12,9 @@ export default function DetailPage({ params }) {
   const [postData, setPostData] = useState(null);
 
   const id = params.id;
+  const [loading, setLoading] = useState(true);
+
+
 
   useEffect(() => {
     if (id) {
@@ -34,6 +37,14 @@ export default function DetailPage({ params }) {
         );
       })
   };
+
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (!postData) {
+    return <div>No post data found</div>;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
