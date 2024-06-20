@@ -13,13 +13,14 @@ export default function PostsConsult() {
 
   useEffect(() => {
 
-    get(`/user/id/${userId}`).then(({ liked_posts_id }) => {
+    get(`/user/by-token`).then(({ liked_posts_id }) => {
       if (liked_posts_id) setUserLikedPosts(liked_posts_id);
     });
 
-    get(`/post/user-posts/${userId}`).then((data) => {
-      setUserPosts(data)
-    });
+    get(`/post/user-posts`)
+      .then((data) => {
+        setUserPosts(data)
+      });
   }, []);
 
 

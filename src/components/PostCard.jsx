@@ -15,9 +15,8 @@ export default function PostCards({
   const linkUrl = "/posts/".concat(postId);
   const [likes, setLikes] = useState(data?.likes ? data.likes : 0);
   const [liked, setIsLiked] = useState(alreadyLiked);
-  const [showCommentBox, setShowCommentBox] = useState(false);
   const [comment, setComment] = useState("");
-  const [commentsCount, setCommentsCount] = useState(data.comments_count);
+  const [commentsCount, setCommentsCount] = useState(data.comments_id.length);
 
   const likePost = () => {
     if (!liked && !likedScreen) {
@@ -43,26 +42,20 @@ export default function PostCards({
         .catch(() => null);
   };
 
-  const createComment = async () => {
+  const createComment = () => {
     if (comment.trim() !== "") {
-      try {
-        const requestData = {
-          author_id: userId,
-          post_id: postId,
-          content: comment,
-        };
-        const response = await post("/comment", requestData);
-        if (response.statusCode === 200) {
-          setComment(""); // clear the textarea
-          setShowCommentBox(false); // hide the textarea
-          setCommentsCount(commentsCount + 1); // update the comments count
-        } else {
-          //console.error("Error creating comment:", response);
-        }
-      } catch (error) {
-        console.error("Error creating comment:", error);
-        alert("Error creating comment");
-      }
+      const requestData = {
+        author_id: userId,
+        post_id: postId,
+        content: comment,
+      };
+      post("/comment/", requestData)
+        .then(() => {
+          setComment("");
+          setCommentsCount(commentsCount + 1);
+        }).catch(() => {
+          alert("Error creating comment");
+        })
     }
   };
 
@@ -140,26 +133,32 @@ export default function PostCards({
           <div className="flex gap-1">
             <span
               className="material-symbols-outlined text-black cursor-pointer "
-              onClick={() => setShowCommentBox(!showCommentBox)}
             >
               chat_bubble
             </span>
-            <p>Comments: {commentsCount}</p>
-
-            {data?.comments_id?.length}
-            {showCommentBox && (
-              <div className="comment-box">
-                <textarea
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="Write a comment..."
-                />
-                <button onClick={createComment}>Post</button>
-              </div>
-            )}
+            <p>{commentsCount}</p>
           </div>
+
         </div>
       )}
+      <div className="flex mt-4">
+        <div className="w-11/12">
+          <textarea
+            id={"comment-area-".concat(postId)}
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Write a comment..."
+            className="shadow-sm border 
+                text-sm rounded-lg block w-full p-2.5 
+                bg-gray-700 border-gray-600 placeholder-gray-400 text-white 
+                focus:ring-blue-500 focus:border-blue-500 shadow-sm-light"
+          />
+        </div>
+        <button onClick={createComment}
+          className="w-1/12 ml-2 text-white bg-secondary px-2  rounded-r-2xl rounded-l-2xl ">
+          Publish
+        </button>
+      </div>
     </div>
   );
 }

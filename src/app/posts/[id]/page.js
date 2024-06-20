@@ -1,28 +1,37 @@
 "use client";
 
-import { deletereq, get } from "@/data/webService";
+import { deletereq, get, post } from "@/data/webService";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function DetailPage({ params }) {
-  const router = useRouter();
-
 
   const [postData, setPostData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [comment, setComment] = useState("");
 
   const id = params.id;
-  const [loading, setLoading] = useState(true);
+  const userId = sessionStorage.getItem("userId");
 
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect("/");
+    },
+  });
 
 
   useEffect(() => {
-    if (id) {
+    if (status == "authenticated" && id) {
       get(`/post/id/${id}`)
         .then(data => {
-          console.log(data)
+          setLoading(false)
           setPostData(data);
-        })
+        }).catch(() => redirect("/timeline"))
+    } else {
+      redirect("/timeline")
     }
   }, [id]);
 
@@ -30,7 +39,7 @@ export default function DetailPage({ params }) {
     deletereq(`/post/id/${id}`)
       .then(response => {
         alert("Post deleted successfully!");
-        router.push("/posts/timeline");
+        redirect("/timeline")
       }).catch(() => {
         alert(
           "An error occurred while deleting the post. Please try again later."
@@ -38,6 +47,25 @@ export default function DetailPage({ params }) {
       })
   };
 
+  const createComment = () => {
+    if (comment.trim() !== "") {
+      const requestData = {
+        author_id: userId,
+        post_id: id,
+        content: comment,
+      };
+      post("/comment/", requestData)
+        .then(() => {
+          setComment("");
+          get(`/post/id/${id}`)
+            .then(data => {
+              setPostData(data);
+            })
+        }).catch(() => {
+          alert("Error creating comment");
+        })
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -153,18 +181,37 @@ export default function DetailPage({ params }) {
           </div>
         </div>
       </article>
-      <article className="rounded shadow-md overflow-hidden flex flex-col mt-8">
+      <section className="rounded shadow-md overflow-hidden flex flex-col mt-8">
         <header className="p-4 bg-gray-100">
           <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate">
             Discussion
           </h2>
         </header>
         <div className="p-4 prose max-w-none text-gray-700 bg-white">
+          <div className="flex mb-4">
+            <div className="w-11/12">
+              <textarea
+                id={"comment-area-".concat(id)}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Write a comment..."
+                className="shadow-sm border 
+                text-sm rounded-lg block w-full p-2.5 
+                bg-gray-700 border-gray-600 placeholder-gray-400 text-white 
+                focus:ring-blue-500 focus:border-blue-500 shadow-sm-light"
+              />
+            </div>
+            <button onClick={createComment}
+              className="w-1/12 ml-2 text-white bg-secondary px-2  rounded-r-2xl rounded-l-2xl ">
+              Publish
+            </button>
+          </div>
           {postData?.comments_id.length > 0 ?
             <>
-              {postData?.comments?.map((comment, idx) => {
+              {postData?.comments?.map((comment) => {
+                console.log({ comment })
                 return (
-                  <div key={key} className="flex items-center">
+                  <div key={comment.id} className="flex items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -181,11 +228,11 @@ export default function DetailPage({ params }) {
                     </svg>
                     <div className="ml-4">
                       <p className="text-base font-medium text-black-500">
-                        Researcher Name
+                        {comment.author ? comment.author.display_name
+                          : "Researcher Name"}
                       </p>
                       <p className="text-base text-gray-700">
-                        This is a comment by the researcher Lorem ipsum dolor sit amet,
-                        consectetur adipiscing elit.
+                        {comment.content}
                       </p>
                     </div>
                   </div>
@@ -195,7 +242,7 @@ export default function DetailPage({ params }) {
             <p>No comments yet...</p>}
 
         </div>
-      </article>
+      </section>
     </div>
   );
 }

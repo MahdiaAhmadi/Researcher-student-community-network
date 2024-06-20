@@ -23,18 +23,22 @@ export default function TimeLine() {
   });
 
   useEffect(() => {
+    if (status == "authenticated") {
+      get(`/user/by-token`)
+        .then(({ liked_posts_id, follows_id }) => {
+          if (liked_posts_id) setUserLikedPosts(liked_posts_id);
+          if (follows_id) setFollows(follows_id);
+        }).catch(() => null);
 
-    get(`/user/by-token`).then(({ liked_posts_id, follows_id }) => {
-      if (liked_posts_id) setUserLikedPosts(liked_posts_id);
-      if (follows_id) setFollows(follows_id);
-    }).catch(() => null);
-    get("/post/").then((data) => {
-      const sortedData = data.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      );
-      setTimelineData(sortedData);
-    }).catch(() => null);
-  }, []);
+      get("/post/").then((data) => {
+        const sortedData = data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setTimelineData(sortedData);
+      }).catch(() => null);
+    }
+
+  }, [status]);
 
   if (status == "loading") {
     return <ScreenLoader />;
