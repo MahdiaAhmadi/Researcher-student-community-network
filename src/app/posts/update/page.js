@@ -1,9 +1,13 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { get, put } from "../../../data/webService";
 
 export default function UpdatePost({ params }) {
-  const postId = params.id;
+  const router = useRouter()
+  const searchParams = useSearchParams();
+  const postId = searchParams.get('id');
+
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
   const [postSummary, setPostSummary] = useState("");
@@ -12,57 +16,50 @@ export default function UpdatePost({ params }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!postId) {
-      setError("Invalid post ID");
-      return;
-    }
-
-    async function fetchPostData() {
-      try {
-        const response = await get(`/post/id/${postId}`);
-        const post = response.data;
+    if (postId) {
+      get(`/post/id/${postId}`).then(post => {
         setPostTitle(post.title);
         setPostContent(post.content);
-        setPostSummary(post.summary);
-      } catch (error) {
-        setError(error.message);
-      }
+        setPostSummary(post.summary)
+      }).catch(error => {
+        setError(error.message)
+      });
+    } else {
+      setError("Invalid post ID");
     }
-    fetchPostData();
+
+
   }, [postId]);
 
-  const handleUpdate = async (e) => {
+
+
+  const handleUpdate = (e) => {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      const postData = {
-        title: postTitle.trim(),
-        content: postContent.trim(),
-        summary: postSummary.trim(),
-      };
 
-      if (!postData.title || !postData.content || !postData.summary) {
-        setError("Please fill in all fields");
-        return;
-      }
+    const postData = {
+      title: postTitle.trim(),
+      content: postContent.trim(),
+      summary: postSummary.trim(),
+    };
 
-      const headers = {
-        "Content-Type": "application/json",
-      };
+    if (!postData.title || !postData.content || !postData.summary) {
+      setError("Please fill in all fields");
 
-      const response = await put(`/post/id/${postId}`, post, { headers });
-      if (response.data) {
-        setUpdated(true);
-        setError(null);
-      } else {
-        setError("Error occurred while updating post");
-      }
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
+    } else {
+      put(`/post/id/${postId}`, postData)
+        .then(() => {
+          setUpdated(true);
+          setError(null);
+          setLoading(false);
+          router.push("/timeline");
+        }).catch(e => {
+          setError(e.message);
+        })
     }
+
+
   };
 
   return (

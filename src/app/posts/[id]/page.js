@@ -176,12 +176,12 @@ export default function DetailPage({ params }) {
               Delete
             </button>
 
-            <button
+            <Link
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-7 rounded-full"
-              onClick={() => router.push(`/posts/update?id=${id}`)}
+              href={`/posts/update?id=${id}`}
             >
               Edit
-            </button>
+            </Link>
           </div>
         </div>
       </article>
