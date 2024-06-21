@@ -26,10 +26,10 @@ export default function CreatePost() {
   }, []);
 
   function loadCategories() {
-    get("/category/").then(data => {
-      console.log(data)
-      setCategoryOptions(data)
-    })
+    get("/category/").then((data) => {
+      console.log(data);
+      setCategoryOptions(data);
+    });
   }
 
   const createNewCategory = (e) => {
@@ -37,13 +37,13 @@ export default function CreatePost() {
     if (newCategoryName != "")
       post("/category/", {
         name: newCategoryName,
-        posts_id: []
+        posts_id: [],
       }).then(() => {
-        alert("Category Created!")
+        alert("Category Created!");
         setIsShowModal(false);
         loadCategories();
-      })
-  }
+      });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -67,15 +67,16 @@ export default function CreatePost() {
       comments_id: [],
       research_link,
       visibility,
-      file_path: ""
+      file_path: "",
     };
 
-    post("/post/", postData).then(() => {
-      router.push("/timeline");
-    }).catch(() => {
-      alert("Failed creating Post!");
-    })
-
+    post("/post/", postData)
+      .then(() => {
+        router.push("/timeline");
+      })
+      .catch(() => {
+        alert("Failed creating Post!");
+      });
   };
 
   return (
@@ -87,66 +88,67 @@ export default function CreatePost() {
         {/* create category modal */}
 
         <form className="p-4 ">
-
           <InputText
             label="Post Title:"
             id="title"
             value={title}
             onChange={({ target }) => {
               setTitle(target.value);
-            }} />
+            }}
+          />
           <div className="grid grid-cols-12 gap-4 mb-2">
             <div className="col-span-7">
-              <Label htmlFor="categories"
-                label="Categories" />
-              <select id="categories"
+              <Label htmlFor="categories" label="Categories" />
+              <select
+                id="categories"
                 className="shadow-sm border 
                text-sm rounded-lg block w-full p-2.5 
                bg-gray-700 border-gray-600 placeholder-gray-400 text-white 
                focus:ring-blue-500 focus:border-blue-500 shadow-sm-light"
                 onChange={({ target }) => {
-                  setCategories_id([target.value])
-                }}>
-                {categoriesOptions.map(cat => {
-                  return <option key={cat.id}
-                    value={cat.id}>
-                    {cat.name}
-                  </option>
+                  setCategories_id([target.value]);
+                }}
+              >
+                {categoriesOptions.map((cat) => {
+                  return (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </option>
+                  );
                 })}
               </select>
             </div>
             <div className="col-span-2">
-              <Label htmlFor="create-cat"
-                label="Create One" />
-              <button id="create-cat"
+              <Label htmlFor="create-cat" label="Create One" />
+              <button
+                id="create-cat"
                 onClick={() => setIsShowModal(true)}
                 class="block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 "
-                type="button">
+                type="button"
+              >
                 +
               </button>
             </div>
             <div className="col-span-3">
-              <Label htmlFor="visibility"
-                label="Visibility" />
-              <select id="visibility"
+              <Label htmlFor="visibility" label="Visibility" />
+              <select
+                id="visibility"
                 className="shadow-sm border 
                text-sm rounded-lg block w-full p-2.5 
                bg-gray-700 border-gray-600 placeholder-gray-400 text-white 
                focus:ring-blue-500 focus:border-blue-500 shadow-sm-light"
                 onChange={({ target }) => {
-                  setVisibility(target.value)
-                }}>
-                <option value={0}>
-                  Just for me - Private
-                </option>
+                  setVisibility(target.value);
+                }}
+              >
+                <option value={0}>Just for me - Private</option>
                 <option selected value={1}>
                   For all - Public
                 </option>
               </select>
-
             </div>
           </div>
-          {isShowModal &&
+          {isShowModal && (
             <div className="border-blue-400 p-2 border-2 rounded-2xl">
               <div className="flex items-center justify-between border-b rounded-t border-gray-600">
                 <h3 className="text-lg font-semibold text-black">
@@ -155,9 +157,23 @@ export default function CreatePost() {
                 <button
                   onClick={() => setIsShowModal(false)}
                   className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto 
-                inline-flex justify-center items-center" data-modal-toggle="crud-modal">
-                  <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                inline-flex justify-center items-center"
+                  data-modal-toggle="crud-modal"
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
                   </svg>
                   <span className="sr-only">Close modal</span>
                 </button>
@@ -169,15 +185,17 @@ export default function CreatePost() {
                 value={newCategoryName}
                 onChange={({ target }) => {
                   setNewCategoryName(target.value);
-                }} />
+                }}
+              />
 
               <button
                 onClick={createNewCategory}
-                className="text-white inline-flex items-center focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700">
+                className="text-white inline-flex items-center focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700"
+              >
                 + Add new Category
               </button>
-
-            </div>}
+            </div>
+          )}
           <InputTextArea
             label="Post Content:"
             id="content"
@@ -185,7 +203,8 @@ export default function CreatePost() {
             placeholder="content goes here..."
             onChange={({ target }) => {
               setContent(target.value);
-            }} />
+            }}
+          />
 
           <InputTextArea
             label="Post Summary:"
@@ -194,7 +213,8 @@ export default function CreatePost() {
             placeholder="content goes here..."
             onChange={({ target }) => {
               setSummary(target.value);
-            }} />
+            }}
+          />
 
           <InputText
             label="Post Research:"
@@ -202,12 +222,14 @@ export default function CreatePost() {
             value={research_link}
             onChange={({ target }) => {
               setResearch_link(target.value);
-            }} />
-
+            }}
+          />
 
           <div className="text-center mt-6 ">
-            <button onClick={handleSubmit}
-              className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-8 py-3 text-center me-2 mb-4 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+            <button
+              onClick={handleSubmit}
+              className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-8 py-3 text-center me-2 mb-4 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            >
               Add Post
             </button>
           </div>
@@ -215,16 +237,17 @@ export default function CreatePost() {
       </div>
     </div>
   );
-};
-
+}
 
 function InputText({ label, id, value, onChange }) {
   return (
     <div className="mb-4">
       <label
         className="text-left block mb-2 text-sm font-medium text-gray-900"
-        for={id}>
-        {label}<span className="text-red-500">*</span>
+        for={id}
+      >
+        {label}
+        <span className="text-red-500">*</span>
       </label>
 
       <input
@@ -239,7 +262,7 @@ function InputText({ label, id, value, onChange }) {
       focus:ring-blue-500 focus:border-blue-500 shadow-sm-light"
       />
     </div>
-  )
+  );
 }
 
 function InputTextArea({ label, id, value, onChange, placeholder }) {
@@ -247,8 +270,10 @@ function InputTextArea({ label, id, value, onChange, placeholder }) {
     <div className="mb-4">
       <label
         className="text-left block mb-2 text-sm font-medium text-gray-900"
-        for={id}>
-        {label}<span className="text-red-500">*</span>
+        for={id}
+      >
+        {label}
+        <span className="text-red-500">*</span>
       </label>
       <textarea
         id={id}
@@ -262,7 +287,6 @@ function InputTextArea({ label, id, value, onChange, placeholder }) {
       focus:ring-blue-500 focus:border-blue-500 shadow-sm-light"
         placeholder={placeholder}
       />
-
     </div>
-  )
+  );
 }

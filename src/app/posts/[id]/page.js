@@ -8,11 +8,10 @@ export default function DetailPage({ params }) {
   const router = useRouter();
 
   const id = params.id;
-  const [postData, setPostData] = useState(null); // Initialize an empty object to store post data
+  const [postData, setPostData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    //fetch post data from API based on Id
     async function fetchPostData() {
       try {
         const res = await fetch(`http://localhost:8000/post/id/${id}`);
@@ -30,17 +29,6 @@ export default function DetailPage({ params }) {
     }
     fetchPostData();
   }, [id]);
-
-  useEffect(() => {
-    console.log("postData:", postData);
-  }, [postData]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-  if (!postData) {
-    return <div>No post data found</div>;
-  }
 
   const handleDelete = async () => {
     try {
@@ -160,7 +148,11 @@ export default function DetailPage({ params }) {
             >
               Delete
             </button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-7 rounded-full">
+
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-7 rounded-full"
+              onClick={() => router.push(`/posts/update?id=${id}`)}
+            >
               Edit
             </button>
           </div>
