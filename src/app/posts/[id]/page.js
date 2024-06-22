@@ -5,6 +5,8 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
+import { BanDialog } from "@/components/BanDialog";
+import { ReportDialog } from "@/components/ReportDialog";
 
 export default function DetailPage({ params }) {
 
@@ -87,6 +89,7 @@ export default function DetailPage({ params }) {
             <h1 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate">
               {postData?.title}
             </h1>
+            <ReportDialog postId={postData?.id}/>
           </div>
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row items-center mt-2">
@@ -109,6 +112,7 @@ export default function DetailPage({ params }) {
                   <p className="text-sm font-medium text-black">
                     Researcher Name
                   </p>
+                  {session.user.role == "admin" ? <BanDialog userId={params.id}/> : null}
                   <button
                     className="follow-button text-white bg-secondary px-3 ml-2 
               text-xs mt-1  rounded-2xl"

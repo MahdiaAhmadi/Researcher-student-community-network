@@ -40,6 +40,7 @@ export default function LoginPage() {
         sessionStorage.setItem("userId", user.id)
         await signIn("credentials", {
           userId: user.id,
+          role: user.user_type.type,
           email: user.email,
           username: user.username,
           displayName: user.display_name,
