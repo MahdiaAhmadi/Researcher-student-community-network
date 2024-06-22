@@ -35,7 +35,8 @@ export default NextAuth({
                     email: credentials.email,
                     username: credentials.username,
                     displayName: credentials.displayName,
-                    token: credentials.token
+                    token: credentials.token,
+                    role: credentials.role
                 };
 
                 return credentialDetails
@@ -51,6 +52,7 @@ export default NextAuth({
                 token.username = user.username;
                 token.display_name = user.displayName;
                 token.accessToken = user.token;
+                token.role = user.role;
             }
 
             return token;
@@ -62,6 +64,7 @@ export default NextAuth({
                 session.user.username = token.username;
                 session.user.displayName = token.display_name;
                 session.user.accessToken = token.accessToken;
+                session.user.role = token.role;
             }
             return session;
         },
