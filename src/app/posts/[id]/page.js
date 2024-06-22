@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ReportDialog } from "@/components/ReportDialog"
+import { BanDialog } from "@/components/BanDialog"
 
 
 export default function DetailPage({ params, postId }) {
@@ -67,6 +68,7 @@ export default function DetailPage({ params, postId }) {
                 <p className="text-sm font-medium text-black">
                   Researcher Name
                 </p>
+            <BanDialog userId={userId}/>
                 <button
                   className="follow-button text-white bg-secondary px-3 ml-2 
               text-xs mt-1  rounded-2xl"
