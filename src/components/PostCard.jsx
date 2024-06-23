@@ -1,8 +1,8 @@
 "use client";
 
-import { post, put } from "@/data/webService";
+import { post, put, get } from "@/data/webService";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function PostCards({
   userId,
@@ -17,7 +17,25 @@ export default function PostCards({
   const [liked, setIsLiked] = useState(alreadyLiked);
   const [comment, setComment] = useState("");
   const [commentsCount, setCommentsCount] = useState(data.comments_id.length);
+  const [authorData, setAuthorData] = useState(null);
+  const [institution, setInstitution] = useState(null);
 
+  useEffect(() => {
+      console.log("author");
+    get(`/user/id/${data.author_id}`).then((data) => {
+        setAuthorData(data)
+        console.log(data);
+      }).catch(() => alert("error getting author information"))
+  }, [data])
+  useEffect(() => {
+    if(authorData != null){
+      console.log(authorData);
+      get(`/institution/${authorData.institution_id}`).then((data) => {
+        setInstitution(data)
+        console.log(data);
+      }).catch(() => alert("error getting author information"))
+    }
+  },[authorData])
   const likePost = () => {
     if (!liked && !likedScreen) {
       let count = likes + 1;
@@ -79,8 +97,8 @@ export default function PostCards({
           </svg>
 
           <div className="profile-info">
-            <p>Researcher Name</p>
-            <p>University School Name</p>
+            <p>{authorData?.display_name}</p>
+            <p>{institution?.name}</p>
           </div>
         </div>
         {userId != data?.author_id && (

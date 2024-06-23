@@ -5,10 +5,15 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
+import { BanDialog } from "@/components/BanDialog";
+import { ReportDialog } from "@/components/ReportDialog";
 
 export default function DetailPage({ params }) {
 
   const [postData, setPostData] = useState(null);
+  const [authorData, setAuthorData] = useState(null);
+  const [institution, setInstitution] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [comment, setComment] = useState("");
 
@@ -34,6 +39,25 @@ export default function DetailPage({ params }) {
       redirect("/timeline")
     }
   }, [id]);
+  useEffect(() => {
+
+    if(postData != null){
+      console.log("author");
+      get(`/user/id/${postData.author_id}`).then((data) => {
+        setAuthorData(data)
+        console.log(data);
+      }).catch(() => alert("error getting author information"))
+    }
+  },[postData])
+  useEffect(() => {
+    if(authorData != null){
+      console.log(authorData);
+      get(`/institution/${authorData.institution_id}`).then((data) => {
+        setInstitution(data)
+        console.log(data);
+      }).catch(() => alert("error getting author information"))
+    }
+  },[authorData])
 
   const handleDelete = () => {
     deletereq(`/post/id/${id}`)
@@ -87,6 +111,7 @@ export default function DetailPage({ params }) {
             <h1 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate">
               {postData?.title}
             </h1>
+            <ReportDialog postId={postData?.id}/>
           </div>
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row items-center mt-2">
@@ -107,8 +132,9 @@ export default function DetailPage({ params }) {
               <div>
                 <div className="flex">
                   <p className="text-sm font-medium text-black">
-                    Researcher Name
+                    {authorData?.display_name}
                   </p>
+                  {session.user.role == "admin" ? <BanDialog userId={params.id}/> : null}
                   <button
                     className="follow-button text-white bg-secondary px-3 ml-2 
               text-xs mt-1  rounded-2xl"
@@ -117,21 +143,23 @@ export default function DetailPage({ params }) {
                   </button>
                 </div>
                 <p className="text-sm font-medium text-gray-500">
-                  University Name
+                  {institution?.name}
                 </p>
               </div>
             </div>
-
-            <div className="flex gap-3">
-              {postData?.categories?.map(cat => {
+            <div className="flex">
+              {postData?.categories.map((cat) => {
                 return (
-                  <div key={cat.id} className="px-3 text-sm text-white bg-blue-500 rounded-2xl ring-2 ring-blue-800">
+                  <div
+                    key={cat.id}
+                    className="px-3 text-sm text-white bg-blue-500 rounded-2xl ring-2 ring-blue-800"
+                  >
                     {cat.name}
                   </div>
-                )
+                );
               })}
-
             </div>
+
           </div>
         </header>
         <div className="p-4 prose max-w-none text-gray-700 bg-white">
