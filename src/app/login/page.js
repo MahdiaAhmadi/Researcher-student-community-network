@@ -2,6 +2,7 @@
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import ScreenLoader from "@/components/ui/ScreenLoader";
+import { get } from "@/data/webService";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -16,33 +17,43 @@ export default function LoginPage() {
 
   const onSubmit = async () => {
 
-    const response = await fetch("http://localhost:8000/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-    }).then(res => res.json())
-      .catch(() => ({ code: 500, message: "Server Error" }));
+    let formData = new FormData();
+    formData.append("username", username)
+    formData.append("password", password)
 
-    if (response.code == 200) {
-      const user = response.data;
-      await signIn("credentials", {
-        email: user.email,
-        username: user.username,
-        displayName: user.display_name,
-        institution: user.institution,
-        redirect: true,
-        callbackUrl: "/"
-      });
+    const response = await fetch("http://localhost:8000/user/token", {
+      method: "POST",
+      body: formData
+    }).then(res => {
+      if (res.status == 401) {
+        alert("User Unathorized")
+      }
+      return res.json()
+    }).catch(() => null);
+
+
+    if (response) {
+      const token = response.access_token;
+      sessionStorage.setItem("token", token)
+
+      get("/user/by-token").then(async user => {
+        sessionStorage.setItem("userId", user.id)
+        await signIn("credentials", {
+          userId: user.id,
+          role: user.user_type.type,
+          email: user.email,
+          username: user.username,
+          displayName: user.display_name,
+          institution: user.institution,
+          redirect: true,
+          callbackUrl: "/"
+        });
+      })
+
     } else {
-      alert(response.message)
+      alert("Error! Try Again Later.")
     }
-  };
+  }
 
   if (status == "loading") {
     return <ScreenLoader />
@@ -53,7 +64,7 @@ export default function LoginPage() {
   return (
     <div
       className={
-        " flex flex-col justify-center items-center bg-gradient-to-br h-[80.4dvh]"
+        " flex flex-col justify-center items-center bg-gradient-to-br h-[83.8dvh]"
       } >
       <div className="text-black px-8 pb-8 pt-5 bg-white rounded-xl space-y-5 ">
         <h1 className="text-center text-bold text-2xl">Sign In</h1>

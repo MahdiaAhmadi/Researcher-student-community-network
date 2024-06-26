@@ -1,5 +1,82 @@
+"use client";
 
-export default function PostCards() {
+import { post, put, get } from "@/data/webService";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+export default function PostCards({
+  userId,
+  postId,
+  alreadyLiked,
+  data,
+  likedScreen,
+  authorIsFollowed,
+}) {
+  const linkUrl = "/posts/".concat(postId);
+  const [likes, setLikes] = useState(data?.likes ? data.likes : 0);
+  const [liked, setIsLiked] = useState(alreadyLiked);
+  const [comment, setComment] = useState("");
+  const [commentsCount, setCommentsCount] = useState(data.comments_id.length);
+  const [authorData, setAuthorData] = useState(null);
+  const [institution, setInstitution] = useState(null);
+
+  useEffect(() => {
+      console.log("author");
+    get(`/user/id/${data.author_id}`).then((data) => {
+        setAuthorData(data)
+        console.log(data);
+      }).catch(() => alert("error getting author information"))
+  }, [data])
+  useEffect(() => {
+    if(authorData != null){
+      console.log(authorData);
+      get(`/institution/${authorData.institution_id}`).then((data) => {
+        setInstitution(data)
+        console.log(data);
+      }).catch(() => alert("error getting author information"))
+    }
+  },[authorData])
+  const likePost = () => {
+    if (!liked && !likedScreen) {
+      let count = likes + 1;
+      put(`/post/like/${postId}`)
+        .then(() => {
+          setLikes(count);
+          setIsLiked(true);
+        })
+        .catch(() => {
+          setLikes(count);
+          setIsLiked(true);
+        });
+    }
+  };
+
+  const followUser = () => {
+    if (!authorIsFollowed)
+      post(`/user/follow-user/${data.author_id}`)
+        .then(() => {
+          alert("Followed");
+        })
+        .catch(() => null);
+  };
+
+  const createComment = () => {
+    if (comment.trim() !== "") {
+      const requestData = {
+        author_id: userId,
+        post_id: postId,
+        content: comment,
+      };
+      post("/comment/", requestData)
+        .then(() => {
+          setComment("");
+          setCommentsCount(commentsCount + 1);
+        }).catch(() => {
+          alert("Error creating comment");
+        })
+    }
+  };
+
   return (
     <div className="research-card bg-gray-200 text-fourth px-5 py-3 mt-6 rounded-md hover:shadow-sm">
       <div className="profile flex items-center justify-between">
@@ -20,78 +97,85 @@ export default function PostCards() {
           </svg>
 
           <div className="profile-info">
-            <p>Researcher Name</p>
-            <p>University School Name</p>
+            <p>{authorData?.display_name}</p>
+            <p>{institution?.name}</p>
           </div>
         </div>
-        <button className="follow-button bg-transparent px-3 py-1 rounded-2xl border-2 border-gray-400 hover:bg-gray-300 text-black">
-          <i className="fas fa-star"></i> Follow
-        </button>
-      </div>
-      <div className="research-info">
-        <h3 className="font-bold ">Title of Research</h3>
-        <div className="categories mt-6 mb-6 space-x-4  ">
-          <span className=" bg-sixth px-3 py-1 rounded-r-2xl rounded-l-2xl cursor-pointer">
-            Category 1
-          </span>
-          <span className=" bg-fifth px-3 py-1 rounded-r-2xl rounded-l-2xl cursor-pointer">
-            Category 2
-          </span>
-        </div>
-        {/**<div className="post-details">
-            {isLoading && <div>Loading....</div>}
-            {error && <div>{error}</div>}
-            {post && (
-              <article>
-                <h2>{post.title}</h2>
-                <p>summary for this post {post.summary}</p>
-                <p>Date of creation: {post.created_at}</p>
-              </article>
+        {userId != data?.author_id && (
+          <button
+            className={"follow-button text-white bg-secondary px-3 py-1 rounded-r-2xl rounded-l-2xl ".concat(
+              authorIsFollowed ? " opacity-50 cursor-not-allowed" : ""
             )}
-            <button onClick={handleDelete}>Delete</button>
-            <button onClick={handleBack}>Back </button>
-          </div> */}
-        <div className="relative ">
-
-          <div className="reads absolute bottom-0 right-0 mt-4">Reads: 20</div>
-          <hr className="my-4 border-t-2 border-fourth  mt-5" />
-        </div>
+            disabled={authorIsFollowed}
+            onClick={followUser}
+          >
+            <i className="fas fa-star" />
+            {authorIsFollowed ? "Followed" : "Follow"}
+          </button>
+        )}
       </div>
-      <div className="interactions flex  gap-12">
-        <div className="likes flex gap-1 ">
-          <i className="fas fa-thumbs-up"></i> 12
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6 hover:bg-gray-300"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z"
-            />
-          </svg>
+      <Link href={linkUrl}>
+        <div className="research-info">
+          <h1 className="font-bold text-2xl mb-1">{data?.title}</h1>
+          <div className="flex flex-row items-center justify-start">
+            <div className="flex gap-3">
+              {data?.categories.map((cat) => {
+                return (
+                  <div
+                    key={cat.id}
+                    className="px-3 text-sm text-white bg-blue-500 rounded-2xl ring-2 ring-blue-800"
+                  >
+                    {cat.name}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <p className="mb-1">{data?.summary}</p>
         </div>
-        <div className="comments flex gap-1">
-          <i className="fas fa-comments"></i> 12
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6 hover:bg-gray-300"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
-            />
-          </svg>
+      </Link>
+      {!likedScreen && (
+        <div className="flex mt-2 gap-12">
+          <div className="flex gap-1 ">
+            <span
+              className={"material-symbols-outlined cursor-pointer ".concat(
+                liked ? "text-secondary" : "text-black"
+              )}
+              onClick={likePost}
+            >
+              thumb_up
+            </span>
+            {likes}
+          </div>
+
+          <div className="flex gap-1">
+            <span
+              className="material-symbols-outlined text-black cursor-pointer "
+            >
+              chat_bubble
+            </span>
+            <p>{commentsCount}</p>
+          </div>
+
         </div>
+      )}
+      <div className="flex mt-4">
+        <div className="w-11/12">
+          <textarea
+            id={"comment-area-".concat(postId)}
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Write a comment..."
+            className="shadow-sm border 
+                text-sm rounded-lg block w-full p-2.5 
+                bg-gray-700 border-gray-600 placeholder-gray-400 text-white 
+                focus:ring-blue-500 focus:border-blue-500 shadow-sm-light"
+          />
+        </div>
+        <button onClick={createComment}
+          className="w-1/12 ml-2 text-white bg-secondary px-2  rounded-r-2xl rounded-l-2xl ">
+          Publish
+        </button>
       </div>
     </div>
   );
