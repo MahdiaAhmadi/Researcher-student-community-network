@@ -1,6 +1,6 @@
 "use client";
 
-import { post, put, get } from "@/data/webService";
+import { get, post, put } from "@/data/webService";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -21,21 +21,21 @@ export default function PostCards({
   const [institution, setInstitution] = useState(null);
 
   useEffect(() => {
-      console.log("author");
+    console.log("author");
     get(`/user/id/${data.author_id}`).then((data) => {
-        setAuthorData(data)
-        console.log(data);
-      }).catch(() => alert("error getting author information"))
+      setAuthorData(data)
+      console.log(data);
+    }).catch(() => alert("error getting author information"))
   }, [data])
   useEffect(() => {
-    if(authorData != null){
+    if (authorData != null) {
       console.log(authorData);
       get(`/institution/${authorData.institution_id}`).then((data) => {
         setInstitution(data)
         console.log(data);
       }).catch(() => alert("error getting author information"))
     }
-  },[authorData])
+  }, [authorData])
   const likePost = () => {
     if (!liked && !likedScreen) {
       let count = likes + 1;
@@ -119,7 +119,7 @@ export default function PostCards({
           <h1 className="font-bold text-2xl mb-1">{data?.title}</h1>
           <div className="flex flex-row items-center justify-start">
             <div className="flex gap-3">
-              {data?.categories.map((cat) => {
+              {data?.categories?.map((cat) => {
                 return (
                   <div
                     key={cat.id}
