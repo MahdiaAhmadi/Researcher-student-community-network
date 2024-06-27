@@ -134,7 +134,7 @@ export default function DetailPage({ params }) {
                   <p className="text-sm font-medium text-black">
                     {authorData?.display_name}
                   </p>
-                  {session.user.role == "admin" ? <BanDialog userId={params.id}/> : null}
+                  {session.user.role == "admin" ? <BanDialog userId={authorData?.id}/> : null}
                   <button
                     className="follow-button text-white bg-secondary px-3 ml-2 
               text-xs mt-1  rounded-2xl"

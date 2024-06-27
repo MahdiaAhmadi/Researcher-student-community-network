@@ -66,7 +66,7 @@ export async function put(url, body) {
 }
 
 export async function deletereq(url) {
-    return internalDelete(url, body)
+    return internalDelete(url)
         .then(res => {
             if (res.status == 401)
                 signOut()

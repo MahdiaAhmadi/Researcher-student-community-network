@@ -1,8 +1,6 @@
 "use client"
 
-import {
-    PublicationsSection
-} from "@/components/SectionsAdvancedSearch";
+import PostCards from "@/components/PostCard";
 import ScreenLoader from "@/components/ui/ScreenLoader";
 import { get } from "@/data/webService";
 import { useSession } from "next-auth/react";
@@ -12,8 +10,13 @@ import { useEffect, useState } from "react";
 
 
 export default function SearchPage({ params }) {
+
+    const [follows, setFollows] = useState([]);
+    const [userLikedPosts, setUserLikedPosts] = useState([]);
     const [searchCategory, setSearchCategory] = useState("");
     const [filteredData, setFilteredData] = useState([]);
+
+    const userId = sessionStorage.getItem("userId");
 
     const { data: session, status } = useSession({
         required: true,
@@ -22,7 +25,18 @@ export default function SearchPage({ params }) {
         },
     })
 
-    const searchquery = params.searchquery
+    const searchquery = params.searchquery;
+
+    useEffect(() => {
+        if (status == "authenticated") {
+            get(`/user/by-token`)
+                .then(({ liked_posts_id, follows_id }) => {
+                    if (liked_posts_id) setUserLikedPosts(liked_posts_id);
+                    if (follows_id) setFollows(follows_id);
+                }).catch(() => null);
+        }
+
+    }, [status]);
 
     useEffect(() => {
         let query = ""
@@ -68,7 +82,6 @@ export default function SearchPage({ params }) {
         }
     };
 
-
     if (searchCategory == "") {
         return <ScreenLoader />
     }
@@ -88,10 +101,25 @@ export default function SearchPage({ params }) {
                 </Link>
             </div>
             <div className="flex justify-center mt-2">
-                <div className='w-8/12 h-[74dvh] pl-2 overflow-y-scroll no-scrollbar'>
+                <div className='w-8/12 h-[84dvh] pl-2 overflow-y-scroll no-scrollbar'>
                     <div>
                         {filteredData.length > 0 ? (
-                            <PublicationsSection publications={filteredData} />
+                            <section>
+                                {filteredData.map((post) => {
+                                    let liked = userLikedPosts.some((l) => l == post.id);
+                                    let followUser = follows.some((l) => l == post.author_id);
+                                    return (
+                                        <PostCards
+                                            key={post.id}
+                                            alreadyLiked={liked}
+                                            userId={userId}
+                                            postId={post.id}
+                                            authorIsFollowed={followUser}
+                                            data={post}
+                                        />
+                                    );
+                                })}
+                            </section>
                         ) : (
                             <div>No publications found.</div>
                         )}
